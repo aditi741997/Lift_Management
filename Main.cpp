@@ -6,7 +6,8 @@ double p;
 double q;
 double r;
 double tu;
-
+unordered_map<pair<State,Action>, double> Qsa;
+unordered_map<pair<State,Action>, long> Exploration;
 
 int main(int argc, char const *argv[])
 {
