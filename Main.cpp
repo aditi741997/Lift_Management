@@ -10,6 +10,7 @@ unordered_map<pair<State,Action>, float> Qsa;
 unordered_map<pair<State,Action>, long> Exploration;
 int L1posnMask, L2posnMask;
 int L1_buttonMask, L2_buttonMask;
+int Floor_buttonMask;
 
 int Up, Down, Open_Up, Open_Down,Still;
 
@@ -27,6 +28,7 @@ int main(int argc, char const *argv[])
 	L1B_shift = (N == 4) ? 16: 19;
 	L2_buttonMask = (N == 4) ? (15 << 12) : (31 << 14) ;
 	L2B_shift = (N == 4) ? 12 : 14;
+	Floor_buttonMask = ((N == 4) ? 63: 127) << 6;
 	Still = 0;
 	Up = 1;
 	Down = 2;
