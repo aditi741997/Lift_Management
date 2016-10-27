@@ -8,7 +8,14 @@ Action::Action(char c)
 State::State(int s)
 {
 	Val = s;
+	preProcess();
 }
+
+string Action::to_string()
+{
+	return lift_str(Val && L1posnMask, 1) + " " + lift_str(Val && L2posnMask, 2);
+}
+
 
 void State::preProcess()
 {
@@ -27,16 +34,16 @@ void State::preProcess()
 	if (Val && L1posnMask == 0)
 	{
 		// any action with L1 go down is invalid.
-		Action a;
-		Action b;
-		a.Val = Down << 3;
-		b.Val = Open_Down << 3;
+		Action a (Down << 3);
+		Action b (Open_Down << 3);
 		for (int i = 0; i < 5; i++)
 		{
 			a.Val = a.Val || i;
 			b.Val = b.Val || i;
-			Qsa[this][a] = INT_MAX;
-			Qsa[this][b] = INT_MAX;
+			cout << "Disabling : " << a.to_string() << endl;
+			cout << "Disabling : " << b.to_string() << endl;
+			Qsa[Val][a] = INT_MAX;
+			Qsa[Val][b] = INT_MAX;
 			a.Val = a.Val && !i;
 			b.Val = b.Val && !i;
 		}
@@ -44,16 +51,16 @@ void State::preProcess()
 	if ((Val && L1posnMask >> 3) == N-1)
 	{
 		// any action with L1 go up is invalid.
-		Action a;
-		Action b;
-		a.Val = Up << 3;
-		b.Val = Open_Up << 3;
+		Action a (Up << 3);
+		Action b (Open_Up << 3);
 		for (int i = 0; i < 5; i++)
 		{
 			a.Val = a.Val || i;
 			b.Val = b.Val || i;
-			Qsa[this][a] = INT_MAX;
-			Qsa[this][b] = INT_MAX;
+			cout << "Disabling : " << a.to_string() << endl;
+			cout << "Disabling : " << b.to_string() << endl;
+			Qsa[Val][a] = INT_MAX;
+			Qsa[Val][b] = INT_MAX;
 			a.Val = a.Val && !i;
 			b.Val = b.Val && !i;
 		}
@@ -61,42 +68,46 @@ void State::preProcess()
 	if ((Val && L2posnMask) == 0)
 	{
 		// any action with L1 go up is invalid.
-		Action a;
-		Action b;
-		a.Val = Down;
-		b.Val = Open_Down;
+		Action a (Down);
+		Action b (Open_Down);
 		for (int i = 0; i < 5; i++)
 		{
 			a.Val = a.Val || (i << 3);
 			b.Val = b.Val || (i << 3);
-			Qsa[this][a] = INT_MAX;
-			Qsa[this][b] = INT_MAX;
+			cout << "Disabling : " << a.to_string() << endl;
+			cout << "Disabling : " << b.to_string() << endl;
+			Qsa[Val][a] = INT_MAX;
+			Qsa[Val][b] = INT_MAX;
 			a.Val = a.Val && !(i << 3);
 			b.Val = b.Val && !(i << 3);
+		}
 	}
 	if ((Val && L2posnMask) == N-1)
 	{
 		// any action with L1 go up is invalid.
-		Action a;
-		Action b;
-		a.Val = Up;
-		b.Val = Open_Up;
+		Action a (Up);
+		Action b (Open_Up);
 		for (int i = 0; i < 5; i++)
 		{
 			a.Val = a.Val || (i << 3);
 			b.Val = b.Val || (i << 3);
-			Qsa[this][a] = INT_MAX;
-			Qsa[this][b] = INT_MAX;
+			cout << "Disabling : " << a.to_string() << endl;
+			cout << "Disabling : " << b.to_string() << endl;
+			Qsa[Val][a] = INT_MAX;
+			Qsa[Val][b] = INT_MAX;
 			a.Val = a.Val && !(i << 3);
 			b.Val = b.Val && !(i << 3);
 		}
 	}
 	char curr_floor = (Val && L1posnMask >> 3);
 	int floor_butt_up = (curr_floor == 0) ? 2*(N-1): 1 + 2*(N - 1- curr_floor);
+	int floor_butt_down = (curr_floor == 0) ? (2*(N-1) - 1): (2*(N - 2 - curr_floor) + 1);
 	// all those pressed are < crfloor.
 	// floor wale bhi, only < crfloor.
 	int l1_b = (Val && L1_buttonMask) >> L1B_shift;
+	int l2_b = (Val && L2_buttonMask) >> L2B_shift;
 	int floors = ((Val && Floor_buttonMask) >> 6);
+
 	if ((((l1_b)%(1 << (N - curr_floor))) == 0) && (floors%(1 << floor_butt_up) == 0))
 	{
 		// l1 must go down. all other actions ->
@@ -106,13 +117,16 @@ void State::preProcess()
 			{
 				// L1 ka i, L2 ka any -> Qsa = int_max.
 				for (int j = 0; j < 5; j++)
-					Qsa[this][Action((i << 3) || j)] = INT_MAX;
+				{
+					Action a((i << 3) || j);
+					cout << "Disabling " << a.to_string() << endl;
+					Qsa[Val][a] = INT_MAX;
+				}
 			}
 		}
 	}
 	// all those pressed are > crfloor
 	// floor wale bhi, > crfloor.
-	int floor_butt_down = (crfloor == 0) ? (2*(N-1) - 1): (2*(N - 2 - curr_floor) + 1);
 	if ( (l1_b < (1 << (N - 1 - curr_floor))) && (floors < (1 << floor_butt_down)) )
 	{
 		// l1 must go up.
@@ -121,10 +135,46 @@ void State::preProcess()
 			if (i != Up)
 			{
 				for (int j = 0; j < 5; j ++)
-					Qsa[this][Action((i << 3) || j)] = INT_MAX;
+				{
+					Action a((i << 3) || j);
+					Qsa[Val][a] = INT_MAX;
+				}
 			}
 		}
 	}
 	// same thing for lift2
 	// TODO!!
+	if ((((l2_b)%(1 << (N - curr_floor))) == 0) && (floors%(1 << floor_butt_up) == 0))
+	{
+		// l1 must go down. all other actions ->
+		for (int i = 0; i < 5; i++)
+		{
+			if (i != Down)
+			{
+				// L1 ka i, L2 ka any -> Qsa = int_max.
+				for (int j = 0; j < 5; j++)
+				{
+					Action a((j << 3) || i);
+					Qsa[Val][a] = INT_MAX;
+				}
+			}
+		}
+	}
+	// all those pressed are > crfloor
+	// floor wale bhi, > crfloor.
+	if ( (l2_b < (1 << (N - 1 - curr_floor))) && (floors < (1 << floor_butt_down)) )
+	{
+		// l1 must go up.
+		for (int i = 0; i < 5; i++)
+		{
+			if (i != Up)
+			{
+				for (int j = 0; j < 5; j ++)
+				{
+					Action a((j << 3) || i);
+					Qsa[Val][a] = INT_MAX;
+				}
+			}
+		}
+	}
 }

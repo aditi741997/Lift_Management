@@ -1,14 +1,15 @@
-CFLAGS = g++ -c -Ofast -std=c++11 -g
-LFLAGS = g++ -Ofast -std=c++11 -o a
-OBJS = main.o
+CFLAGS = -c -Ofast -std=c++11 -g
+LFLAGS = -Ofast -std=c++11 -o
+OBJS =  state.o
 
-out: $(OBJS)
-	$(LFLAGS) $(CFLAGS)
+out: $(OBJS) main.o
+	g++ $(LFLAGS) $(OBJS) main.o -o out
 
-main.o : Main.cpp
-	$(CFLAGS) Main.cpp
+main.o : Main.cpp Header.h
+	g++ $(CFLAGS) Main.cpp
 
-Main.cpp : Header.h
+state.o : State.cpp Header.h
+	g++ $(CFLAGS) State.cpp
 
 clean:
 	rm *.o

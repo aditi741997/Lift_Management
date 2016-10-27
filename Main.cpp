@@ -6,11 +6,12 @@ float p;
 float q;
 float r;
 float tu;
-unordered_map<pair<State,Action>, float> Qsa;
-unordered_map<pair<State,Action>, long> Exploration;
+unordered_map<int, unordered_map<Action, float, action_hash> > Qsa;
+unordered_map<pair<int,Action>, long, pair_hash> Exploration;
 int L1posnMask, L2posnMask;
 int L1_buttonMask, L2_buttonMask;
 int Floor_buttonMask;
+int L1B_shift, L2B_shift;
 
 int Up, Down, Open_Up, Open_Down,Still;
 
@@ -35,5 +36,9 @@ int main(int argc, char const *argv[])
 	Open_Up = 3;
 	Open_Down = 4;
 
+	Action a (24);
+	cout << a.to_string() << endl;
+
+	State s (0);
 	return 0;
 }
