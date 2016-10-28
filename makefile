@@ -13,7 +13,7 @@ Action.o : Action.cpp Header.h
 
 Main.o : Main.cpp Header.h
 	g++ Main.cpp $(CFLAGS)
-
+ 
 clean:
 	rm *.o
 	rm out
