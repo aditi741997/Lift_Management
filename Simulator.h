@@ -75,12 +75,9 @@ class Simulator
 	}
 
 	void updateWithAction(const int []);
-	
 
-	void display()
-	{
-		std::cerr << "Position of elevators: " << "1:" << lift_pos[0] << " 2:" << lift_pos[1] << std::endl;
-	}
+	void display();
+	
 };
 
 #endif

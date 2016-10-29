@@ -75,11 +75,12 @@ void Simulator::updateWithAction(const int action[])
 				total_electricity_cost ++;
 				break;
 			case 3:
+				buttons_on_floor[ lift_pos[i] ].first = false;
 				for(auto it = people_in_floor[ lift_pos[i] ].begin(); it != people_in_floor[ lift_pos[i] ].end(); )
 					if(it->direction == true)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] += pow(2, it->destination);
+						buttons_on_lift[i] ^= (1 << it->copyP().destination);
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
@@ -95,11 +96,12 @@ void Simulator::updateWithAction(const int action[])
 						it++;
 				break;
 			case 4:
+				buttons_on_floor[ lift_pos[i] ].second = false;
 				for(auto it = people_in_floor[ lift_pos[i] ].begin(); it != people_in_floor[ lift_pos[i] ].end(); )
 					if(it->direction == false)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] += pow(2, it->destination);
+						buttons_on_lift[i] ^= (1 << it->copyP().destination);
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
@@ -155,26 +157,83 @@ void Simulator::updateWithAction(const int action[])
 				if(newPerson.destination >= newPerson.start_floor)
 					newPerson.destination ++;
 			}
-
-			if(newPerson.destination > newPerson.start_floor)
-				newPerson.direction = true;
-			else
-				newPerson.direction = false;
-
-			people_in_floor[newPerson.start_floor].insert(newPerson);
-			total_people_system ++;
 		}
+
+		if(newPerson.destination > newPerson.start_floor)
+			newPerson.direction = true;
+		else
+			newPerson.direction = false;
+
+		if(newPerson.direction == true)
+			buttons_on_floor[newPerson.start_floor].first = true;
+		else 
+			buttons_on_floor[newPerson.start_floor].second = true;
+
+		people_in_floor[newPerson.start_floor].insert(newPerson);
+		total_people_system ++;
 	}
 }
+
+void Simulator::display()
+	{
+		std::cerr << "\nEpisode X ===========================================================\n";
+
+		std::cerr << "Position of elevators: " << "1:" << lift_pos[0] << " 2:" << lift_pos[1] << std::endl;
+
+		std::cerr << "Buttons on each floor: ";
+
+		for(auto it = buttons_on_floor.begin(); it!=buttons_on_floor.end(); it++)
+		{
+			std::cerr <<"("<< it->first<<":"<<it->second<<")";
+		}
+
+		std::cerr << "\n";
+
+		std::cerr << "Buttons on each lift: ";
+
+		for(auto it = buttons_on_lift.begin(); it!=buttons_on_lift.end(); it++)
+		{
+			std::cerr <<"("<< *it << ")";
+		}
+
+		for(int i=0; i<2; i++)
+		{
+			std::cerr << "\n";
+
+			std::cerr << "People in lift "<<i+1<<": ";
+
+			for(auto it = people_in_lift[i].begin(); it!=people_in_lift[i].end(); it++)
+			{
+				std::cerr <<"("<< it->start_floor<<":"<<it->destination<<":"<<it->direction<<")";
+			}
+		}
+
+		for(int i=0; i<5; i++)
+		{
+			std::cerr << "\n";
+			std::cerr << "People in floor "<<i<<": ";
+
+			for(auto it = people_in_floor[i].begin(); it!=people_in_floor[i].end(); it++)
+			{
+				std::cerr <<"("<< it->start_floor<<":"<<it->destination<<":"<<it->direction<<")";
+			}
+		}
+	}
+
 int main()
 {
+	Simulator sim(2, 5, 0.3, 0.4, 0.3, 1);
+
+	int arr[] = {0,0};
+
+	for(int i=0; i<100; i++)
+	{
+		sim.getState();
+		std::cerr << "\nenter action:\n";
+		std::cin >> arr[0] >> arr[1];
+		sim.updateWithAction(arr);
+		sim.display();
+	}
+
 	return 0;
-
-	Simulator sim(5, 2, 0.3, 0.4, 0.3, 1);
-
-	// for(int i=0; i<100; i++)
-	// {
-	// 	sim.getState();
-	// 	sim.updateWithAction(1,0);
-	// }
 }
