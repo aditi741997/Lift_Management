@@ -1,17 +1,17 @@
 CFLAGS = -c -Ofast -std=c++11 -g
 LFLAGS = -Ofast -std=c++11 -o
-OBJS =  state.o action.o
+OBJS =  State.o Action.o
 
-out: $(OBJS) main.o
-	g++ $(LFLAGS) $(OBJS) main.o -o out
+out: $(OBJS) Main.o
+	g++ $(LFLAGS) $(OBJS) Main.o -o out
 
-state.o : State.cpp Header.h
+State.o : State.cpp Header.h
 	g++ $(CFLAGS) State.cpp
 
-action.o : Action.cpp Header.h
+Action.o : Action.cpp Header.h
 	g++ $(CFLAGS) Action.cpp
 
-main.o : Main.cpp Header.h
+Main.o : Main.cpp Header.h
 	g++ $(CFLAGS) Main.cpp
 
 clean:
