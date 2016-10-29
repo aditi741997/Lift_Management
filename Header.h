@@ -79,6 +79,12 @@ inline string to_string(int x)
 	s << x;
 	return s.str();
 }
+// inline string to_string(int x)
+// {
+// 	stringstream s;
+// 	s >> x;
+// 	return s.str();
+// }
 
 inline string lift_str(char a, char l)
 {
