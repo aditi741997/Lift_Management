@@ -8,7 +8,7 @@ float r;
 float tu;
 unordered_map<int, unordered_map<Action, float, action_hash> > Qsa;
 unordered_map<pair<int,Action>, long, pair_hash> Exploration;
-int L1posnMask, L2posnMask;
+char L1posnMask, L2posnMask;
 int L1_buttonMask, L2_buttonMask;
 int Floor_buttonMask;
 int L1B_shift, L2B_shift;
@@ -30,15 +30,16 @@ int main(int argc, char const *argv[])
 	L2_buttonMask = (N == 4) ? (15 << 12) : (31 << 14) ;
 	L2B_shift = (N == 4) ? 12 : 14;
 	Floor_buttonMask = ((N == 4) ? 63: 127) << 6;
-	Still = 0;
 	Up = 1;
 	Down = 2;
 	Open_Up = 3;
-	Open_Down = 4;
+	Open_Down = 0;
+	// cout << (L1posnMask + 3) << " is the l1 mask" << endl;
+	// Action a (16);
+	// cout << a.to_string() << endl;
+	State s (((1 << 17) + 64));
 
-	Action a (24);
-	cout << a.to_string() << endl;
-
-	State s (0);
+	State start(0);
+	// do IDS forever
 	return 0;
 }

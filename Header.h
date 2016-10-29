@@ -16,7 +16,7 @@ extern float p;
 extern float q;
 extern float r;
 extern float tu;
-extern int L1posnMask, L2posnMask;
+extern char L1posnMask, L2posnMask;
 extern int L1_buttonMask, L2_buttonMask;
 extern int L1B_shift, L2B_shift;
 extern int Floor_buttonMask;
@@ -76,39 +76,30 @@ inline bool operator==(const Action& lhs, const Action& rhs)
 inline string to_string(int x)
 {
 	stringstream s;
-	s >> x;
+	s << x;
 	return s.str();
 }
 
-inline string lift_str(int a, int l)
+inline string lift_str(char a, char l)
 {
 	switch (a)
 	{
-		case 0:
-			return "AS" + to_string(l);
 		case 1:
 			return "AU" + to_string(l);
 		case 2:
 			return "AD" + to_string(l);
 		case 3:
 			return "AOU" + to_string(l);
-		case 4:
+		case 0:
 			return "AOD" + to_string(l);
 		default:
 			return "";
 	}
 }
 
+// inline 
 // sampling : start state = 0's.
 // goal state : 
 // IDS se 
-class Sampling
-{
-	int getObservation(); // probability se observation.
-// IDS.
-	// UCT se choose action
-	Action getAction(State&);
-	void sample(int); // int : no of episodes till which sample.
-};
 
 #endif
