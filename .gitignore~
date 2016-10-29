@@ -27,3 +27,10 @@
 *.exe
 *.out
 *.app
+
+<<<<<<< HEAD
+# Makefile
+=======
+# makefile
+>>>>>>> b6b7c2b73144f9b5431e8bf01fc4f469c6c19801
+makefile

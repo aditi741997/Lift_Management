@@ -19,4 +19,3 @@ clean:
 	rm out
 
 run: out
-	.\a.exe
