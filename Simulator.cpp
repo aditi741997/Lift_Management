@@ -80,7 +80,7 @@ void Simulator::updateWithAction(const int action[])
 					if(it->direction == true)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] ^= (1 << it->copyP().destination);
+						buttons_on_lift[i] |= (1 << it->copyP().destination);
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
@@ -101,7 +101,7 @@ void Simulator::updateWithAction(const int action[])
 					if(it->direction == false)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] ^= (1 << it->copyP().destination);
+						buttons_on_lift[i] |= (1 << it->copyP().destination);
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
