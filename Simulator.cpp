@@ -1,6 +1,6 @@
 #include "Simulator.h"
 
-Simulator::Simulator(int lifts, int floors, double p_p, double p_q, double p_r, double t_t_u)
+Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, float t_t_u)
 {
 	srand(time(NULL));
 
@@ -11,22 +11,22 @@ Simulator::Simulator(int lifts, int floors, double p_p, double p_q, double p_r, 
 	r = p_r;
 	t_u = t_t_u;
 
-	for(int i=0; i<lifts; i++)
+	for(char i=0; i<lifts; i++)
 		lift_pos.push_back(0);
 
-	for(int i=0; i<floors; i++)
+	for(char i=0; i<floors; i++)
 		buttons_on_floor.push_back(std::make_pair(false, false));
 
-	for(int i=0; i<lifts; i++)
+	for(char i=0; i<lifts; i++)
 		buttons_on_lift.push_back(0);
 
-	for(int i=0; i<lifts; i++)
+	for(char i=0; i<lifts; i++)
 	{
 		std::unordered_multiset< Person, Person_Hash > people_one_lift;
 		people_in_lift.push_back(people_one_lift);
 	}
 
-	for(int i=0; i<floors; i++)
+	for(char i=0; i<floors; i++)
 	{
 		std::unordered_multiset< Person, Person_Hash > people_one_floor;
 		people_in_floor.push_back(people_one_floor);
@@ -40,12 +40,12 @@ int Simulator::getState()
 	state_integer += lift_pos[1];
 	state_integer += (lift_pos[0] << 3);	
 
-	int sz = no_floors;
+	char sz = no_floors;
 
 	state_integer += (int)(buttons_on_floor[sz].second) << 6;
 
 	int j = 0;
-	for(int i = sz-2; i>= 1; j++, i--)
+	for(char i = sz-2; i>= 1; j++, i--)
 		state_integer += ( ( ((int)(buttons_on_floor[i].first) << 1) + (int)(buttons_on_floor[i].second) ) << (7+2*j) ); 
 	
 	state_integer += ((int)(buttons_on_floor[0].first) << (7+2*j)) ;
@@ -57,15 +57,13 @@ int Simulator::getState()
 }
 
 
-void Simulator::updateWithAction(const int action[])
+void Simulator::updateWithAction(const char action[])
 {
 	total_wait_cost += total_people_system;
-	for(int i=0; i<2; i++)
+	for(char i=0; i<no_lifts; i++)
 	{
 		switch(action[i])
 		{
-			case 0:
-				break;
 			case 1:
 				lift_pos[i] ++;
 				total_electricity_cost ++;
@@ -95,7 +93,7 @@ void Simulator::updateWithAction(const int action[])
 					else
 						it++;
 				break;
-			case 4:
+			case 0:
 				buttons_on_floor[ lift_pos[i] ].second = false;
 				for(auto it = people_in_floor[ lift_pos[i] ].begin(); it != people_in_floor[ lift_pos[i] ].end(); )
 					if(it->direction == false)
@@ -115,6 +113,8 @@ void Simulator::updateWithAction(const int action[])
 					}
 					else
 						it++;
+				break;
+			default:
 				break;
 		}
 	}
@@ -159,10 +159,11 @@ void Simulator::updateWithAction(const int action[])
 			}
 		}
 
-		if(newPerson.destination > newPerson.start_floor)
-			newPerson.direction = true;
-		else
-			newPerson.direction = false;
+		// if(newPerson.destination > newPerson.start_floor)
+		// 	newPerson.direction = true;
+		// else
+		// 	newPerson.direction = false;
+		newPerson.direction = (newPerson.destination > newPerson.start_floor);
 
 		if(newPerson.direction == true)
 			buttons_on_floor[newPerson.start_floor].first = true;
@@ -196,7 +197,7 @@ void Simulator::display()
 			std::cerr <<"("<< *it << ")";
 		}
 
-		for(int i=0; i<2; i++)
+		for(char i=0; i<no_lifts; i++)
 		{
 			std::cerr << "\n";
 
@@ -208,7 +209,7 @@ void Simulator::display()
 			}
 		}
 
-		for(int i=0; i<5; i++)
+		for(char i=0; i<no_floors; i++)
 		{
 			std::cerr << "\n";
 			std::cerr << "People in floor "<<i<<": ";
@@ -224,9 +225,9 @@ int main()
 {
 	Simulator sim(2, 5, 0.3, 0.4, 0.3, 1);
 
-	int arr[] = {0,0};
+	char arr[] = {0,0};
 
-	for(int i=0; i<100; i++)
+	for(char i=0; i<100; i++)
 	{
 		sim.getState();
 		std::cerr << "\nenter action:\n";

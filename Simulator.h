@@ -11,8 +11,8 @@
 
 struct Person
 {
-	int start_floor;
-	int destination;
+	char start_floor;
+	char destination;
 	bool direction;
 
 	Person copyP() const
@@ -44,18 +44,17 @@ struct Person_Hash
 class Simulator
 {
 
-	const short int Still = 0;
-	const short int Up = 1;
-	const short int Down = 2;
-	const short int Open_Up = 3;
-	const short int Open_Down = 4;
+	const char Up = 1;
+	const char Down = 2;
+	const char Open_Up = 3;
+	const char Open_Down = 0;
 
-	int no_lifts, no_floors;
-	double p,q,r,t_u;
+	char no_lifts, no_floors;
+	float p,q,r,t_u;
 
-	std::vector< short int > lift_pos;
+	std::vector< char > lift_pos;
 	std::vector< std::pair<bool, bool> > buttons_on_floor;
-	std::vector< short int > buttons_on_lift;
+	std::vector< char > buttons_on_lift;
 	std::vector< std::unordered_multiset< Person, Person_Hash > > people_in_lift;
 	std::vector< std::unordered_multiset< Person, Person_Hash > > people_in_floor;
 
@@ -65,16 +64,16 @@ class Simulator
 
 	public:
 	
-	Simulator(int, int, double, double, double, double);
+	Simulator(char, char, float, float, float, float);
 	
 	int getState();
 	
-	inline int getCost()
+	inline float getCost()
 	{
 		return (total_electricity_cost+(total_wait_cost*2));
 	}
 
-	void updateWithAction(const int []);
+	void updateWithAction(const char []);
 
 	void display();
 	
