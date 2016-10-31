@@ -25,20 +25,32 @@ inline float Sampling::newQ(float& cost, int& depth)
 	return cost/depth;
 }
 
+void Sampling::clear()
+{
+	State_Action.clear();
+}
+
 void Sampling::chooseAction(char& action, int& state)
 {
 	int ns = 1;
 	for (char i = 0; i < 4; i++)
-		ns += Exploration[state][i];
+	{
+		for (char j = 0; j < 4; j++)
+			ns += Exploration[state][(i << 3) | j];
+	}
 	float pie_max = -FLT_MAX;
 	for (char i = 0; i < 4; i++)
 	{
-		float new_pie;
-		findUVal(i,state,new_pie,ns);
-		if (new_pie > pie_max)
+		for (char j = 0; j < 4; j++)
 		{
-			pie_max = new_pie;
-			action = i;
+			char a = (i << 3) | j;		
+			float new_pie;
+			findUVal(a,state,new_pie,ns);
+			if (new_pie > pie_max)
+			{
+				pie_max = new_pie;
+				action = a;
+			}
 		}
 	}
 	State_Action.push_back(make_pair(state,action));

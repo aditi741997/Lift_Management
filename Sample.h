@@ -16,6 +16,7 @@ public:
 	Sampling();
 	void chooseAction(char&,int&); // take state from Sim, give action, add to list.
 	void updateVals(float&,int&);
+	void clear();
 };
 
 void runSimulation(int&,Sampling&);
