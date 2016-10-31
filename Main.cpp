@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
 
 	State start(0);
 	Sampling s;
-	int depth = 3;
+	int depth = 20;
 	runSimulation(depth,s);
 	// do IDS forever
 	return 0;

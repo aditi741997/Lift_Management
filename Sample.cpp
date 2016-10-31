@@ -48,10 +48,14 @@ void Sampling::updateVals(float& cost, int& depth)
 {
 	int itern_no = 0;
 	for (auto it = State_Action.begin(); it != State_Action.end(); it++)
-	{
+	{		
+		cerr << "State: "<< it->first << "Action: " << (int)(it->second) << "Purana QSA:" << Qsa[it->first][it->second] << endl;
+
 		Exploration[it->first][it->second] += 1;
 		if (Qsa[it->first][it->second] < INT_MAX)
 			Qsa[it->first][it->second] += (getAlpha(itern_no,depth))*(newQ(cost,depth) - Qsa[it->first][it->second]);
 		itern_no += 1;
+
+		cerr << "State: "<< it->first << "Action: " << (int)(it->second) << "Naya QSA:" << Qsa[it->first][it->second] << endl;
 	}
 }
