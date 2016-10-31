@@ -68,7 +68,7 @@ struct Action
 //     }
 // };
 
-extern unordered_map<int, unordered_map<char, int> > Qsa;
+extern unordered_map<int, unordered_map<char, float> > Qsa;
 // extern unordered_map<pair<int,Action>, float, pair_hash> Qsa;
 extern unordered_map<int, unordered_map<char, int> > Exploration;
 

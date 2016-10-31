@@ -7,7 +7,7 @@ float p;
 float q;
 float r;
 float tu;
-unordered_map<int, unordered_map<char, int> > Qsa;
+unordered_map<int, unordered_map<char, float> > Qsa;
 unordered_map<int, unordered_map<char, int> > Exploration;
 char L1posnMask, L2posnMask;
 int L1_buttonMask, L2_buttonMask;
@@ -33,6 +33,7 @@ void runSimulation(int &depth, Sampling &sampler)
 	}
 	float f = s.getCost();
 	sampler.updateVals(f,depth);
+
 }
 
 int main(int argc, char const *argv[])

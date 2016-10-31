@@ -32,8 +32,8 @@ void preProcess(int& Val)
 			b = b | i;
 			// cout << "Disabling : " << char_to_String(a) << endl;
 			// cout << "Disabling : " << char_to_String(b) << endl;
-			Qsa[Val][a] = INT_MAX;
-			Qsa[Val][b] = INT_MAX;
+			Qsa[Val][a] = FLT_MAX;
+			Qsa[Val][b] = FLT_MAX;
 			a = a & (~i);
 			b = b & (~i);
 		}
@@ -49,8 +49,8 @@ void preProcess(int& Val)
 			b = b | i;
 			// cout << "Disabling : " << char_to_String(a) << endl;
 			// cout << "Disabling : " << char_to_String(b) << endl;
-			Qsa[Val][a] = INT_MAX;
-			Qsa[Val][b] = INT_MAX;
+			Qsa[Val][a] = FLT_MAX;
+			Qsa[Val][b] = FLT_MAX;
 			a = a & (~i);
 			b = b & (~i);
 		}
@@ -67,8 +67,8 @@ void preProcess(int& Val)
 			b = b | (i << 3);
 			// cout << "Disabling : " << char_to_String(a) << endl;
 			// cout << "Disabling : " << char_to_String(b) << endl;
-			Qsa[Val][a] = INT_MAX;
-			Qsa[Val][b] = INT_MAX;
+			Qsa[Val][a] = FLT_MAX;
+			Qsa[Val][b] = FLT_MAX;
 			a = a & (~(i << 3));
 			b = b & (~(i << 3));
 		}
@@ -84,8 +84,8 @@ void preProcess(int& Val)
 			b = b | (i << 3);
 			// cout << "Disabling : " << char_to_String(a) << endl;
 			// cout << "Disabling : " << char_to_String(b) << endl;
-			Qsa[Val][a] = INT_MAX;
-			Qsa[Val][b] = INT_MAX;
+			Qsa[Val][a] = FLT_MAX;
+			Qsa[Val][b] = FLT_MAX;
 			a = a & (~(i << 3));
 			b = b & (~(i << 3));
 		}
@@ -114,12 +114,12 @@ void preProcess(int& Val)
 			{
 				if (i != Down)
 				{
-					// L1 ka i, L2 ka any -> Qsa = int_max.
+					// L1 ka i, L2 ka any -> Qsa = FLT_MAX.
 					for (char j = 0; j < 4; j++)
 					{
 						char a = ((i << 3) | j);
 						// cout << "Disabling " << char_to_String(a) << endl;
-						Qsa[Val][a] = INT_MAX;
+						Qsa[Val][a] = FLT_MAX;
 					}
 				}
 			}
@@ -137,7 +137,7 @@ void preProcess(int& Val)
 					{
 						char a = ((i << 3) | j);
 						// cout << "Disabling " << char_to_String(a) << endl;
-						Qsa[Val][a] = INT_MAX;
+						Qsa[Val][a] = FLT_MAX;
 					}
 				}
 			}
@@ -155,12 +155,12 @@ void preProcess(int& Val)
 			{
 				if (i != Down)
 				{
-					// L1 ka i, L2 ka any -> Qsa = int_max.
+					// L1 ka i, L2 ka any -> Qsa = FLT_MAX.
 					for (char j = 0; j < 4; j++)
 					{
 						char a = ((j << 3) | i);
 						// cout << "Disabling " << char_to_String(a) << endl;
-						Qsa[Val][a] = INT_MAX;
+						Qsa[Val][a] = FLT_MAX;
 					}
 				}
 			}
@@ -179,7 +179,7 @@ void preProcess(int& Val)
 					{
 						char a = ((j << 3) | i);
 						// cout << "Disabling " << char_to_String(a) << endl;
-						Qsa[Val][a] = INT_MAX;
+						Qsa[Val][a] = FLT_MAX;
 					}
 				}
 			}

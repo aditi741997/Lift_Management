@@ -9,7 +9,7 @@ inline void Sampling::findUVal(char& act, int& state, float& val, int& ns)
 {
 	if (Exploration[state][act] != 0)
 		val = -1*Qsa[state][act] + c*sqrt(log(ns)/Exploration[state][act]);
-	else if (Qsa[state][act] < INT_MAX)
+	else if (Qsa[state][act] < FLT_MAX)
 		val = FLT_MAX;
 	else
 		val = -FLT_MAX;
@@ -62,7 +62,7 @@ void Sampling::updateVals(float& cost, int& depth)
 	for (auto it = State_Action.begin(); it != State_Action.end(); it++)
 	{
 		Exploration[it->first][it->second] += 1;
-		if (Qsa[it->first][it->second] < INT_MAX)
+		if (Qsa[it->first][it->second] < FLT_MAX)
 			Qsa[it->first][it->second] += (getAlpha(itern_no,depth))*(newQ(cost,depth) - Qsa[it->first][it->second]);
 		itern_no += 1;
 	}
