@@ -25,6 +25,11 @@ inline float Sampling::newQ(float& cost, int& depth)
 	return cost/depth;
 }
 
+void Sampling::clear()
+{
+	State_Action.clear();
+}
+
 void Sampling::chooseAction(char& action, int& state)
 {
 	int ns = 1;
