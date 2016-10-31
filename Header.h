@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <sstream>
 #include <limits.h>
+#include <float.h>
+#include <list>
 
 
 // everything assuming N <= 5, K = 2.
@@ -33,10 +35,12 @@ struct State
 	// L1B L2B 1u 2u2d 3u3d 4d 3,3
 	int Val;
 	State(int);
-	void preProcess();
+	// void preProcess();
 // if all buttons pressed are >=(<=) curr floor, go up(down). iska Q -inf
 // if button of floor pressed -> open. iska Q -inf
 };
+
+void preProcess(int&);
 
 struct Action
 {
@@ -50,23 +54,23 @@ struct Action
 	};
 };
 
-struct action_hash{
-	inline std::size_t operator()(const Action &a) const {
-		std::hash<char> char_hasher;
-		return char_hasher(a.Val);
-	}
-};
+// struct action_hash{
+// 	inline std::size_t operator()(const Action &a) const {
+// 		std::hash<char> char_hasher;
+// 		return char_hasher(a.Val);
+// 	}
+// };
 
-struct pair_hash {
-    inline std::size_t operator()(const std::pair<int,Action> & v) const {
-        std::hash<int> int_hasher;
-        return int_hasher(v.first) ^ int_hasher(v.second.Val);
-    }
-};
+// struct pair_hash {
+//     inline std::size_t operator()(const std::pair<int,Action> & v) const {
+//         std::hash<int> int_hasher;
+//         return int_hasher(v.first) ^ int_hasher(v.second.Val);
+//     }
+// };
 
-extern unordered_map<int, unordered_map<Action, float, action_hash> > Qsa;
+extern unordered_map<int, unordered_map<char, int> > Qsa;
 // extern unordered_map<pair<int,Action>, float, pair_hash> Qsa;
-extern unordered_map<pair<int,Action>, long, pair_hash> Exploration;
+extern unordered_map<int, unordered_map<char, int> > Exploration;
 
 inline bool operator==(const Action& lhs, const Action& rhs)
 {
@@ -79,6 +83,7 @@ inline string to_string(int x)
 	s << x;
 	return s.str();
 }
+
 // inline string to_string(int x)
 // {
 // 	stringstream s;
@@ -101,6 +106,11 @@ inline string lift_str(char a, char l)
 		default:
 			return "";
 	}
+}
+
+inline string char_to_String(char Val)
+{
+	return lift_str((Val & L1posnMask) >> 3, 1) + " " + lift_str(Val & L2posnMask, 2);
 }
 
 // inline 

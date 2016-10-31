@@ -221,20 +221,20 @@ void Simulator::display()
 		}
 	}
 
-int main()
-{
-	Simulator sim(2, 5, 0.3, 0.4, 0.3, 1);
+// int main()
+// {
+// 	Simulator sim(2, 5, 0.3, 0.4, 0.3, 1);
 
-	char arr[] = {0,0};
+// 	char arr[] = {0,0};
 
-	for(char i=0; i<100; i++)
-	{
-		sim.getState();
-		std::cerr << "\nenter action:\n";
-		std::cin >> arr[0] >> arr[1];
-		sim.updateWithAction(arr);
-		sim.display();
-	}
+// 	for(char i=0; i<100; i++)
+// 	{
+// 		sim.getState();
+// 		std::cerr << "\nenter action:\n";
+// 		std::cin >> arr[0] >> arr[1];
+// 		sim.updateWithAction(arr);
+// 		sim.display();
+// 	}
 
-	return 0;
-}
+// 	return 0;
+// }

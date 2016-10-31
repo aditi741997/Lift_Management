@@ -3,10 +3,10 @@
 State::State(int s)
 {
 	Val = s;
-	preProcess();
+	// preProcess();
 }
 
-void State::preProcess()
+void preProcess(int& Val)
 {
 	// SHORTEN THIS!!
 	// vector<int> l1;
@@ -24,70 +24,70 @@ void State::preProcess()
 	{
 		// any action with L1 go down is invalid.
 		cout << "yo, loop 1 \n";
-		Action a ((Down << 3)); // AD1 (4 acts of 2)
-		Action b ((Open_Down << 3)); // AOD1 (4 acts of 2)
+		char a = ((Down << 3)); // AD1 (4 acts of 2)
+		char b = ((Open_Down << 3)); // AOD1 (4 acts of 2)
 		for (char i = 0; i < 4; i++)
 		{
-			a.Val = a.Val | i;
-			b.Val = b.Val | i;
-			cout << "Disabling : " << a.to_string() << endl;
-			cout << "Disabling : " << b.to_string() << endl;
+			a = a | i;
+			b = b | i;
+			cout << "Disabling : " << char_to_String(a) << endl;
+			cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
-			a.Val = (a.Val & (~i));
-			b.Val = (b.Val & (~i));
+			a = a & (~i);
+			b = b & (~i);
 		}
 	}
 	if ((Val & L1posnMask >> 3) == N-1)
 	{
 		// any action with L1 go up is invalid.
-		Action a (Up << 3);
-		Action b (Open_Up << 3);
+		char a = (Up << 3);
+		char b = (Open_Up << 3);
 		for (char i = 0; i < 4; i++)
 		{
-			a.Val = a.Val | i;
-			b.Val = b.Val | i;
-			cout << "Disabling : " << a.to_string() << endl;
-			cout << "Disabling : " << b.to_string() << endl;
+			a = a | i;
+			b = b | i;
+			cout << "Disabling : " << char_to_String(a) << endl;
+			cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
-			a.Val = (a.Val & (~i));
-			b.Val = (b.Val & (~i));
+			a = a & (~i);
+			b = b & (~i);
 		}
 	}
 	if ((Val & L2posnMask) == 0)
 	{
 		// any action with L1 go up is invalid.
 		cout << "yo, loop 3 \n";
-		Action a (Down);
-		Action b (Open_Down);
+		char a = (Down);
+		char b = (Open_Down);
 		for (char i = 0; i < 4; i++)
 		{
-			a.Val = a.Val | (i << 3);
-			b.Val = b.Val | (i << 3);
-			cout << "Disabling : " << a.to_string() << endl;
-			cout << "Disabling : " << b.to_string() << endl;
+			a = a | (i << 3);
+			b = b | (i << 3);
+			cout << "Disabling : " << char_to_String(a) << endl;
+			cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
-			a.Val = a.Val & (~(i << 3));
-			b.Val = b.Val & (~(i << 3));
+			a = a & (~(i << 3));
+			b = b & (~(i << 3));
 		}
 	}
 	if ((Val & L2posnMask) == N-1)
 	{
 		// any action with L1 go up is invalid.
-		Action a (Up);
-		Action b (Open_Up);
+		char a = (Up);
+		char b = (Open_Up);
 		for (char i = 0; i < 4; i++)
 		{
-			a.Val = a.Val | (i << 3);
-			b.Val = b.Val | (i << 3);
-			cout << "Disabling : " << a.to_string() << endl;
-			cout << "Disabling : " << b.to_string() << endl;
+			a = a | (i << 3);
+			b = b | (i << 3);
+			cout << "Disabling : " << char_to_String(a) << endl;
+			cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
-			a.Val = a.Val & (~(i << 3));
-			b.Val = b.Val & (~(i << 3));
+			a = a & (~(i << 3));
+			b = b & (~(i << 3));
 		}
 	}
 	char curr_floor1 = (Val & L1posnMask >> 3);
@@ -117,8 +117,8 @@ void State::preProcess()
 					// L1 ka i, L2 ka any -> Qsa = int_max.
 					for (char j = 0; j < 4; j++)
 					{
-						Action a((i << 3) | j);
-						cout << "Disabling " << a.to_string() << endl;
+						char a = ((i << 3) | j);
+						cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -135,8 +135,8 @@ void State::preProcess()
 				{
 					for (char j = 0; j < 4; j ++)
 					{
-						Action a((i << 3) | j);
-						cout << "Disabling " << a.to_string() << endl;
+						char a = ((i << 3) | j);
+						cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -158,8 +158,8 @@ void State::preProcess()
 					// L1 ka i, L2 ka any -> Qsa = int_max.
 					for (char j = 0; j < 4; j++)
 					{
-						Action a((j << 3) | i);
-						cout << "Disabling " << a.to_string() << endl;
+						char a = ((j << 3) | i);
+						cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -177,8 +177,8 @@ void State::preProcess()
 				{
 					for (char j = 0; j < 4; j ++)
 					{
-						Action a((j << 3) | i);
-						cout << "Disabling " << a.to_string() << endl;
+						char a = ((j << 3) | i);
+						cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
