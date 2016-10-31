@@ -30,8 +30,8 @@ void preProcess(int& Val)
 		{
 			a = a | i;
 			b = b | i;
-			cout << "Disabling : " << char_to_String(a) << endl;
-			cout << "Disabling : " << char_to_String(b) << endl;
+			// cout << "Disabling : " << char_to_String(a) << endl;
+			// cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
 			a = a & (~i);
@@ -47,8 +47,8 @@ void preProcess(int& Val)
 		{
 			a = a | i;
 			b = b | i;
-			cout << "Disabling : " << char_to_String(a) << endl;
-			cout << "Disabling : " << char_to_String(b) << endl;
+			// cout << "Disabling : " << char_to_String(a) << endl;
+			// cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
 			a = a & (~i);
@@ -65,8 +65,8 @@ void preProcess(int& Val)
 		{
 			a = a | (i << 3);
 			b = b | (i << 3);
-			cout << "Disabling : " << char_to_String(a) << endl;
-			cout << "Disabling : " << char_to_String(b) << endl;
+			// cout << "Disabling : " << char_to_String(a) << endl;
+			// cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
 			a = a & (~(i << 3));
@@ -82,8 +82,8 @@ void preProcess(int& Val)
 		{
 			a = a | (i << 3);
 			b = b | (i << 3);
-			cout << "Disabling : " << char_to_String(a) << endl;
-			cout << "Disabling : " << char_to_String(b) << endl;
+			// cout << "Disabling : " << char_to_String(a) << endl;
+			// cout << "Disabling : " << char_to_String(b) << endl;
 			Qsa[Val][a] = INT_MAX;
 			Qsa[Val][b] = INT_MAX;
 			a = a & (~(i << 3));
@@ -118,7 +118,7 @@ void preProcess(int& Val)
 					for (char j = 0; j < 4; j++)
 					{
 						char a = ((i << 3) | j);
-						cout << "Disabling " << char_to_String(a) << endl;
+						// cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -136,7 +136,7 @@ void preProcess(int& Val)
 					for (char j = 0; j < 4; j ++)
 					{
 						char a = ((i << 3) | j);
-						cout << "Disabling " << char_to_String(a) << endl;
+						// cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -159,7 +159,7 @@ void preProcess(int& Val)
 					for (char j = 0; j < 4; j++)
 					{
 						char a = ((j << 3) | i);
-						cout << "Disabling " << char_to_String(a) << endl;
+						// cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}
@@ -178,7 +178,7 @@ void preProcess(int& Val)
 					for (char j = 0; j < 4; j ++)
 					{
 						char a = ((j << 3) | i);
-						cout << "Disabling " << char_to_String(a) << endl;
+						// cout << "Disabling " << char_to_String(a) << endl;
 						Qsa[Val][a] = INT_MAX;
 					}
 				}

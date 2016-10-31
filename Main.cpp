@@ -25,6 +25,7 @@ void runSimulation(int &depth, Sampling &sampler)
 		char act;
 		int curr_state = s.getState();
 		sampler.chooseAction(act,curr_state);
+		cout << "Preprocessing state " << curr_state << endl;
 		preProcess(curr_state);
 		x[0] = (act & L1posnMask) >> 3;
 		x[1] = (act & L2posnMask);
