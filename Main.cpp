@@ -33,7 +33,7 @@ void runSimulation(int &depth, Sampling &sampler)
 	}
 	float f = s.getCost();
 	sampler.updateVals(f,depth);
-
+	sampler.clear();
 }
 
 int main(int argc, char const *argv[])
@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
 
 	State start(0);
 	Sampling s;
-	int depth = 3;
+	int depth = 100;
 	runSimulation(depth,s);
 	// do IDS forever
 	return 0;

@@ -8,7 +8,7 @@ Sampling::Sampling()
 inline void Sampling::findUVal(char& act, int& state, float& val, int& ns)
 {
 	if (Exploration[state][act] != 0)
-		val = -1*Qsa[state][act] + c*sqrt(log(ns)/Exploration[state][act]);
+		val = (Qsa[state][act] < FLT_MAX) ? (-1*Qsa[state][act] + c*sqrt(log(ns)/Exploration[state][act])) : -1*FLT_MAX;
 	else if (Qsa[state][act] < FLT_MAX)
 		val = FLT_MAX;
 	else
@@ -17,7 +17,7 @@ inline void Sampling::findUVal(char& act, int& state, float& val, int& ns)
 
 inline float Sampling::getAlpha(int& it_no, int& depth)
 {
-	return (1 - ((it_no)/(float)depth));
+	return (1.001 - ((it_no)/(float)depth));
 }
 
 inline float Sampling::newQ(float& cost, int& depth)

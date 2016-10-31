@@ -62,14 +62,16 @@ void Simulator::updateWithAction(const char action[])
 	total_wait_cost += total_people_system;
 	for(char i=0; i<no_lifts; i++)
 	{
-		switch(action[i])
+		// std::cerr << (int)(action[i]) << std::endl;
+		switch((int)(action[i]))
 		{
 			case 1:
-				lift_pos[i] ++;
+				lift_pos[i] += 1;
+				// std::cout << "Act 1 New posn of ith lift :" << lift_pos[i] << std::endl;
 				total_electricity_cost ++;
 				break;
 			case 2:
-				lift_pos[i] --;
+				lift_pos[i] -= 1;
 				total_electricity_cost ++;
 				break;
 			case 3:
@@ -96,6 +98,8 @@ void Simulator::updateWithAction(const char action[])
 			case 0:
 				buttons_on_floor[ lift_pos[i] ].second = false;
 				for(auto it = people_in_floor[ lift_pos[i] ].begin(); it != people_in_floor[ lift_pos[i] ].end(); )
+				{
+					// cout << 				
 					if(it->direction == false)
 					{
 						people_in_lift[i].insert(it->copyP());
@@ -104,6 +108,7 @@ void Simulator::updateWithAction(const char action[])
 					}
 					else
 						it++;
+				}
 				for(auto it = people_in_lift[i].begin(); it!= people_in_lift[i].end(); )
 					if(it->destination == lift_pos[i])
 					{
@@ -179,7 +184,7 @@ void Simulator::display()
 	{
 		std::cerr << "\nEpisode X ===========================================================\n";
 
-		std::cerr << "Position of elevators: " << "1:" << lift_pos[0] << " 2:" << lift_pos[1] << std::endl;
+		std::cerr << "Position of elevators: " << "1:" << (int)(lift_pos[0]) << " 2:" << (int)(lift_pos[1]) << std::endl;
 
 		std::cerr << "Buttons on each floor: ";
 
@@ -205,7 +210,7 @@ void Simulator::display()
 
 			for(auto it = people_in_lift[i].begin(); it!=people_in_lift[i].end(); it++)
 			{
-				std::cerr <<"("<< it->start_floor<<":"<<it->destination<<":"<<it->direction<<")";
+				std::cerr <<"("<< (int)(it->start_floor)<<":"<<(int)(it->destination)<<":"<<it->direction<<")";
 			}
 		}
 
@@ -216,7 +221,7 @@ void Simulator::display()
 
 			for(auto it = people_in_floor[i].begin(); it!=people_in_floor[i].end(); it++)
 			{
-				std::cerr <<"("<< it->start_floor<<":"<<it->destination<<":"<<it->direction<<")";
+				std::cerr <<"("<< (int)(it->start_floor)<<":"<<(int)(it->destination)<<":"<<it->direction<<")";
 			}
 		}
 	}
@@ -229,9 +234,11 @@ void Simulator::display()
 
 // 	for(char i=0; i<100; i++)
 // 	{
-// 		sim.getState();
-// 		std::cerr << "\nenter action:\n";
+// 		std::cerr << sim.getState();
+// 		// std::cerr << "\nenter action:\n";
 // 		std::cin >> arr[0] >> arr[1];
+// 		arr[0] -= '0';
+// 		arr[1] -= '0';
 // 		sim.updateWithAction(arr);
 // 		sim.display();
 // 	}
