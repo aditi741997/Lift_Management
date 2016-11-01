@@ -34,25 +34,28 @@ Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, f
 	}
 }
 
+inline int Simulator::getShift(int &revShift)
+{
+	return (no_floors-1-revShift);
+}
+
 int Simulator::getState()
 {
-	int state_integer = 0;
-
-	state_integer += lift_pos[1];
-	state_integer += (lift_pos[0] << 3);	
+	int state_integer = lift_pos[1] | (lift_pos[0] << 3);
 
 	char sz = no_floors;
 
-	state_integer += (int)(buttons_on_floor[sz].second) << 6;
+	state_integer |= (int)(buttons_on_floor[sz-1].second) << 6;
 
 	int j = 0;
 	for(char i = sz-2; i>= 1; j++, i--)
-		state_integer += ( ( ((int)(buttons_on_floor[i].first) << 1) + (int)(buttons_on_floor[i].second) ) << (7+2*j) ); 
+		state_integer |= ( ( ((int)(buttons_on_floor[i].first) << 1) + (int)(buttons_on_floor[i].second) ) << (7+2*j) ); 
 	
-	state_integer += ((int)(buttons_on_floor[0].first) << (7+2*j)) ;
+	j = no_floors - 2;
+	state_integer |= ((int)(buttons_on_floor[0].first) << (7+2*j) ;
 
-	state_integer += (buttons_on_lift[1] << (8+2*j));
-	state_integer += (buttons_on_lift[0] << (13+2*j));
+	state_integer |= (buttons_on_lift[1] << (8+2*j));
+	state_integer |= (buttons_on_lift[0] << (8+no_floors+2*j));
 
 	return state_integer;
 }
@@ -81,7 +84,7 @@ void Simulator::updateWithAction(const char action[])
 					if(it->direction == true)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] |= (1 << it->copyP().destination);
+						buttons_on_lift[i] |= (1 << getShift(it->copyP().destination));
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
@@ -91,7 +94,7 @@ void Simulator::updateWithAction(const char action[])
 					{
 						it = people_in_lift[i].erase(it);
 						total_people_system --;
-						buttons_on_lift[i] &= !(1 << lift_pos[i]);
+						buttons_on_lift[i] &= !(1 << getShift(lift_pos[i]));
 					}
 					else
 						it++;
@@ -104,7 +107,7 @@ void Simulator::updateWithAction(const char action[])
 					if(it->direction == false)
 					{
 						people_in_lift[i].insert(it->copyP());
-						buttons_on_lift[i] |= (1 << it->copyP().destination);
+						buttons_on_lift[i] |= (1 << getShift(it->copyP().destination));
 						it = people_in_floor[ lift_pos[i] ].erase(it);
 					}
 					else
@@ -115,7 +118,7 @@ void Simulator::updateWithAction(const char action[])
 					{
 						it = people_in_lift[i].erase(it);
 						total_people_system --;
-						buttons_on_lift[i] &= !(1 << lift_pos[i]);
+						buttons_on_lift[i] &= !(1 << getShift(lift_pos[i]));
 					}
 					else
 						it++;

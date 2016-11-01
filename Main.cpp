@@ -68,10 +68,10 @@ int main(int argc, char const *argv[])
 	State start(0);
 	Sampling sam;
 	int i = 0;
-	int state = 33299;
+	int state = 2 + (1 << 19);
 	preProcess(state);
-	// char c;
-	// cin >> c;
+	char c;
+	cin >> c;
 	while ((time(0) - Start_time) < Max_Time)
 	{
 		// int depth = 2000;

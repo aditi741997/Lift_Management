@@ -68,6 +68,8 @@ class Simulator
 	Simulator(char, char, float, float, float, float, bool);
 	
 	int getState();
+
+	inline int getShift(int&);
 	
 	inline float getCost()
 	{
