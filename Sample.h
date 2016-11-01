@@ -7,10 +7,11 @@ class Sampling
 {
 private:
 	list<pair<int,char> > State_Action;
-	float c;
-	inline float getAlpha(int&,int&);
+	list<long> Ns;
+	// float c;
+	inline float getAlpha(int&,int&,long&);
 	inline float newQ(float&,int&);
-	inline void findUVal(char&,int&,float&,int&);
+	inline void findUVal(char&,int&,float&,long&,float&);
 
 public:
 	Sampling();

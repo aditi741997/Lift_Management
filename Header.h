@@ -9,11 +9,14 @@
 #include <limits.h>
 #include <float.h>
 #include <list>
+#include <cstdlib>
+#include <ctime>
 
 
 // everything assuming N <= 5, K = 2.
 extern int N;
 extern int K;
+extern int Max_Depth, Max_Time;
 extern float p;
 extern float q;
 extern float r;
@@ -23,6 +26,8 @@ extern int L1_buttonMask, L2_buttonMask;
 extern int L1B_shift, L2B_shift;
 extern int Floor_buttonMask;
 extern int Up, Down, Open_Up, Open_Down,Still;
+// extern long long Total_Expl;
+// extern long double SumQs;
 
 // not all states are valid. these 2 used for UCT.
 // Q denotes cost. Hence, UCT uses -Q + sqrt(log(#times visited))
@@ -70,7 +75,7 @@ struct Action
 
 extern unordered_map<int, unordered_map<char, float> > Qsa;
 // extern unordered_map<pair<int,Action>, float, pair_hash> Qsa;
-extern unordered_map<int, unordered_map<char, int> > Exploration;
+extern unordered_map<int, unordered_map<char, long> > Exploration;
 
 inline bool operator==(const Action& lhs, const Action& rhs)
 {

@@ -23,7 +23,7 @@ void preProcess(int& Val)
 	if ((Val & L1posnMask) == 0)
 	{
 		// any action with L1 go down is invalid.
-		cout << "yo, loop 1 \n";
+		// cout << "yo, loop 1 \n";
 		char a = ((Down << 3)); // AD1 (4 acts of 2)
 		char b = ((Open_Down << 3)); // AOD1 (4 acts of 2)
 		for (char i = 0; i < 4; i++)
@@ -38,7 +38,7 @@ void preProcess(int& Val)
 			b = b & (~i);
 		}
 	}
-	if ((Val & L1posnMask >> 3) == N-1)
+	if (((Val & L1posnMask) >> 3) == N-1)
 	{
 		// any action with L1 go up is invalid.
 		char a = (Up << 3);
@@ -58,7 +58,7 @@ void preProcess(int& Val)
 	if ((Val & L2posnMask) == 0)
 	{
 		// any action with L1 go up is invalid.
-		cout << "yo, loop 3 \n";
+		// cout << "yo, loop 3 \n";
 		char a = (Down);
 		char b = (Open_Down);
 		for (char i = 0; i < 4; i++)
@@ -90,26 +90,26 @@ void preProcess(int& Val)
 			b = b & (~(i << 3));
 		}
 	}
-	char curr_floor1 = (Val & L1posnMask >> 3);
-	char curr_floor2 = (Val & L2posnMask >> 3);
-	char floor_butt_up1 = (curr_floor1 == 0) ? 2*(N-1): 1 + 2*(N - 1- curr_floor1);
-	char floor_butt_down1 = (curr_floor1 == 0) ? (2*(N-1) - 1): (2*(N - 2 - curr_floor1) + 1);
+	char curr_floor1 = ((Val & L1posnMask) >> 3);
+	char curr_floor2 = (Val & L2posnMask);
+	char floor_butt_up1 = (curr_floor1 == 0) ? 2*(N-1) : 1 + 2*(N - 1 - curr_floor1);
+	char floor_butt_down1 = (2*(N - 2 - curr_floor1) + 1);
 
 	char floor_butt_up2 = (curr_floor2 == 0) ? 2*(N-1): 1 + 2*(N - 1- curr_floor2);
-	char floor_butt_down2 = (curr_floor2 == 0) ? (2*(N-1) - 1): (2*(N - 2 - curr_floor2) + 1);
+	char floor_butt_down2 = (2*(N - 2 - curr_floor2) + 1);
 	// all those pressed are < crfloor.
 	// floor wale bhi, only < crfloor.
 	char l1_b = (Val & L1_buttonMask) >> L1B_shift;
 	char l2_b = (Val & L2_buttonMask) >> L2B_shift;
 	short int floors = ((Val & Floor_buttonMask) >> 6);
 
-	cout << "Now preProcess part 2 ------------ \n";
+	// cout << "Now preProcess part 2 ------------ \n";
 
 	if ((l1_b) > 0)
 	{
 		if ((((l1_b)%(1 << (N - curr_floor1))) == 0) && (floors%(1 << floor_butt_up1) == 0) && curr_floor1 != 0)
 		{
-			cout << "l1 must go down. all other actions disable" << endl;
+			// cout << "l1 must go down. all other actions disable" << endl;
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Down)
@@ -126,9 +126,9 @@ void preProcess(int& Val)
 		}
 		// all those pressed are > crfloor
 		// floor wale bhi, > crfloor.
-		if ( (l1_b < (1 << (N - 1 - curr_floor1))) && (floors < (1 << floor_butt_down1)) && (curr_floor1 < N-1))
+		if ((curr_floor1 < N-1) && (l1_b < (1 << (N - 1 - curr_floor1))) && (floors < (1 << floor_butt_down1)))
 		{
-			cout << "l1 must go up." << endl;
+			// cout << "l1 must go up." << endl;
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Up)
@@ -143,14 +143,14 @@ void preProcess(int& Val)
 			}
 		}		
 	}
-	// same thing for lift2
-	// TODO!!
+	// // same thing for lift2
+	// // TODO!!
 	if ((l2_b) > 0)
 	{
 		if ((((l2_b)%(1 << (N - curr_floor2))) == 0) && (floors%(1 << floor_butt_up2) == 0) && curr_floor2 > 0)
 		{
 			// l2 must go down. all other actions ->
-			cout << "l2 down \n";
+			// cout << "l2 down \n";
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Down)
@@ -167,10 +167,10 @@ void preProcess(int& Val)
 		}
 		// all those pressed are > crfloor
 		// floor wale bhi, > crfloor.
-		if ( (l2_b < (1 << (N - 1 - curr_floor2))) && (floors < (1 << floor_butt_down2)) && curr_floor2 < N-1)
+		if ((curr_floor2 < N-1) && (l2_b < (1 << (N - 1 - curr_floor2))) && (floors < (1 << floor_butt_down2)))
 		{
 			// l2 must go up.
-			cout << "l2 up \n";
+			// cout << "l2 up \n";
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Up)

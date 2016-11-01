@@ -48,6 +48,7 @@ class Simulator
 	const char Down = 2;
 	const char Open_Up = 3;
 	const char Open_Down = 0;
+	bool is_real_life;
 
 	char no_lifts, no_floors;
 	float p,q,r,t_u;
@@ -64,7 +65,7 @@ class Simulator
 
 	public:
 	
-	Simulator(char, char, float, float, float, float);
+	Simulator(char, char, float, float, float, float, bool);
 	
 	int getState();
 	
