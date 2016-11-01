@@ -183,6 +183,31 @@ void preProcess(int& Val)
 					}
 				}
 			}
-		}		
+		}
+
+		// lift1 :
+		if ((Val & (1 << (6+2+2*(N-2)+N+N-1-curr_floor1))) != 0)
+		{
+			// open up or open down.
+			for (char i = 0; i < 4; i++)
+			{
+				if (i == Up || i == Down)
+				{
+					for (char j = 0; j < 4; j++)
+						Qsa[Val][(i << 3) | j] = FLT_MAX;
+				}
+			}
+		}
+
+		// lift2 :
+		if ((Val & (1 << (6+2+2*(N-2)+N-1-curr_floor2))) != 0)
+		{
+			for (char i = 0; i < 4; i++)
+			{
+				if (i == Up || i == Down)
+					for (char j = 0; j < 4; j++)
+						Qsa[Val][i | (j << 3)] = FLT_MAX;
+			}
+		}
 	}
 }

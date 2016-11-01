@@ -65,10 +65,20 @@ int main(int argc, char const *argv[])
 	// cout << a.to_string() << endl;
 	// State s (((1 << 17) + 64));
 
-	State start(0);
+//<<<<<<< HEAD
+//	State start(0);
 
 	Sampling sam;
 	int i = 0;
+// =======
+// 	// State start(0);
+// 	Sampling sam;
+// 	int i = 0;
+// 	int state = 2 + (1 << 19);
+// 	preProcess(state);
+// 	// char c;
+// 	// cin >> c;
+// >>>>>>> 3ac5b022d10a79e89e345bc5ed1baa328d83f3de
 	while ((time(0) - Start_time) < Max_Time)
 	{
 		// int depth = 2000;
@@ -85,11 +95,17 @@ int main(int argc, char const *argv[])
 		cout << "Time taken : " << time(0) - Start_time << endl;
 		i += 1;
 	}
+// print vals, check??
+	// for (auto it = Qsa.begin(); it != Qsa.end(); it++)
+	// 	for (auto it1 = (it->second).begin(); it1 != (it->second).end(); it++)
+	// 		cout << "State = " << (it->first) << ", Action = " << (it1->second) << ", val = " << (it1->second) << endl;
+
 	cout << "0" << endl;
 	Simulator s(K,N,p,q,r,tu,false);
 	while (true)
 	{
 		int state = s.getState();
+		cout << state << endl;
 		preProcess(state);
 		char best_Action[2];
 		best_Action[0] = 0;

@@ -34,7 +34,8 @@ Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, f
 	}
 }
 
-inline int Simulator::getShift(int revShift)
+
+inline int Simulator::getShift(char revShift)
 {
 	return (no_floors-1-revShift);
 }
