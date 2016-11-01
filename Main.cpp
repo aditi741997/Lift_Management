@@ -9,6 +9,7 @@ float q;
 float r;
 float tu;
 unordered_map<int, unordered_map<char, float> > Qsa;
+unordered_map<int,float> Avg_Qsa;
 unordered_map<int, unordered_map<char, long> > Exploration;
 char L1posnMask, L2posnMask;
 int L1_buttonMask, L2_buttonMask;
@@ -46,7 +47,7 @@ int main(int argc, char const *argv[])
 	q = atof(argv[4]);
 	r = atof(argv[5]);
 	tu = atof(argv[6]);
-	Max_Depth = 5*pow(10,3);
+	Max_Depth = pow(10,3);
 	Max_Time = 100;
 	L1posnMask = 7 << 3; // 111
 	L2posnMask = 7; // 111
@@ -77,13 +78,14 @@ int main(int argc, char const *argv[])
 		// runSimulation(depth,s);
 
 		int depth = 500;
-		while (((time(0) - Start_time) < Max_Time) && depth < Max_Depth)
+		while (((time(0) - Start_time) < Max_Time) && depth <= Max_Depth)
 		{
 			runSimulation(depth,sam);
 			depth += 5;
-			cout << "Depth = " << depth << " States = " << Qsa.size() << endl;
+			// cout << "Depth = " << depth << " States = " << Qsa.size() << endl;
 		}
 		cout << "Iteration " << i << ", States covered : " << Qsa.size() << endl;
+		cout << "Time taken : " << time(0) - Start_time << endl;
 		i += 1;
 	}
 	cout << "0" << endl;
@@ -99,12 +101,14 @@ int main(int argc, char const *argv[])
 			for (char i = 0; i < 4; i++)
 				for (char j = 0; j < 4; j++)
 				{
-					if (Qsa[state][(i << 3) | j] < best_Val)
-					{
-						best_Val = Qsa[state][(i << 3) | j];
-						best_Action[0] = i;
-						best_Action[1] = j;
-					}
+					char act = (i << 3) | j;
+					if (Qsa[state].find(act) != Qsa[state].end())
+						if (Qsa[state][act] < best_Val)
+						{
+							best_Val = Qsa[state][act];
+							best_Action[0] = i;
+							best_Action[1] = j;
+						}
 				}		
 			cout << Qsa[state][(best_Action[0] << 3) | (best_Action[1])] << " is the Q value, action = " << (int)(best_Action[0]) << (int)(best_Action[1]) << endl;
 		}
