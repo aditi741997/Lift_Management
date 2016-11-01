@@ -9,10 +9,7 @@ inline void Sampling::findUVal(char& act, int& state, float& val, long& ns, floa
 {
 	// val = rand();
 	if (Exploration[state][act] != 0)
-	{
-		val = (Qsa[state][act] < FLT_MAX) ? (-1*Qsa[state][act] - c*sqrt(log(ns)/Exploration[state][act])) : -1*FLT_MAX;
-		//cout << "Term 1=>"<<Qsa[state][act]<<" term 2=>"<<c<<" term2full=>"<<c*sqrt(log(ns)/Exploration[state][act])<<endl;
-	}	// val = (Qsa[state][act] < FLT_MAX) ? rand() : -FLT_MAX;
+		val = (Qsa[state][act] < FLT_MAX) ? (-1*Qsa[state][act] - 7*c*sqrt(log(ns)/Exploration[state][act])) : -1*FLT_MAX;
 	else if (Qsa[state][act] < FLT_MAX)
 		val = FLT_MAX;
 	else
@@ -38,26 +35,20 @@ void Sampling::clear()
 void Sampling::chooseAction(char& action, int& state)
 {
 	long ns = 1;
-	float q_avg = 1 + sqrt(2);
-	for (char i = 0; i < 4; i++)
-	{
-		for (char j = 0; j < 4; j++)
-		{
-			char x = (i << 3) | j;
-			ns += Exploration[state][x];
-			if (Qsa[state][x] < FLT_MAX)
-				q_avg += Qsa[state][x];
-		}
-	}
-	q_avg /= ns;
 	float pie_max = -FLT_MAX;
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			ns += Exploration[state][(i << 3) | j];
+	// cout << "ns is " <<  ns << endl;
+
 	for (char i = 0; i < 4; i++)
 	{
 		for (char j = 0; j < 4; j++)
 		{
-			char a = (i << 3) | j;		
+			char a = (i << 3) | j;
 			float new_pie;
-			findUVal(a,state,new_pie,ns,q_avg);
+
+			findUVal(a,state,new_pie,ns,Avg_Qsa[state]);
 			if (new_pie >= pie_max)
 			{
 				pie_max = new_pie;
@@ -82,14 +73,19 @@ void Sampling::updateVals(float& cost, int& depth)
 	int itern_no = 0;
 
 	auto it1 = Ns.begin();
+	// if (depth == Max_Depth)
+	// 	cout << "Curr Avg = " << cost/Max_Depth << endl;
 	for (auto it = State_Action.begin(); it != State_Action.end() && it1 != Ns.end(); it++, it1++)
 	{
 		// Exploration[it->first][it->second] += 1;
 		if (Qsa[it->first][it->second] < FLT_MAX)
 		{
 			float alpha = getAlpha(itern_no,depth, (*it1));
-			// c += (alpha)*(newQ(cost,depth))
-			Qsa[it->first][it->second] += (alpha)*(newQ(cost,depth) - Qsa[it->first][it->second]);
+			float delta = (alpha)*(newQ(cost,depth) - Qsa[it->first][it->second]);
+
+			Avg_Qsa[it->first] += (delta - Avg_Qsa[it->first])/(*it1 + 1);
+			
+			Qsa[it->first][it->second] += delta;
 			// cout << "alpha = " << getAlpha(itern_no,depth,*(it1)) << endl;
 			if (alpha < 0)
 			{
@@ -103,6 +99,7 @@ void Sampling::updateVals(float& cost, int& depth)
 		//cerr << "State: "<< it->first << "Action: " << (int)(it->second) << "Naya QSA:" << Qsa[it->first][it->second] << endl;
 	}
 	clear();
+	// cout << State_Action.size() << "is the final length \n";
 	// char c;
 	// cin >> c;
 }

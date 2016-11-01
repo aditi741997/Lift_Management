@@ -109,7 +109,7 @@ void preProcess(int& Val)
 	{
 		if ((((l1_b)%(1 << (N - curr_floor1))) == 0) && (floors%(1 << floor_butt_up1) == 0) && curr_floor1 != 0)
 		{
-			// cout << "l1 must go down. all other actions disable" << endl;
+			//cout << "l1 must go down. all other actions disable" << endl;
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Down)
@@ -128,7 +128,7 @@ void preProcess(int& Val)
 		// floor wale bhi, > crfloor.
 		if ((curr_floor1 < N-1) && (l1_b < (1 << (N - 1 - curr_floor1))) && (floors < (1 << floor_butt_down1)))
 		{
-			// cout << "l1 must go up." << endl;
+			//cout << "l1 must go up." << endl;
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Up)
@@ -150,7 +150,7 @@ void preProcess(int& Val)
 		if ((((l2_b)%(1 << (N - curr_floor2))) == 0) && (floors%(1 << floor_butt_up2) == 0) && curr_floor2 > 0)
 		{
 			// l2 must go down. all other actions ->
-			// cout << "l2 down \n";
+			//cout << "l2 down \n";
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Down)
@@ -170,7 +170,7 @@ void preProcess(int& Val)
 		if ((curr_floor2 < N-1) && (l2_b < (1 << (N - 1 - curr_floor2))) && (floors < (1 << floor_butt_down2)))
 		{
 			// l2 must go up.
-			// cout << "l2 up \n";
+			//cout << "l2 up \n";
 			for (char i = 0; i < 4; i++)
 			{
 				if (i != Up)

@@ -68,6 +68,8 @@ class Simulator
 	Simulator(char, char, float, float, float, float, bool);
 	
 	int getState();
+
+	inline int getShift(int);
 	
 	inline float getCost()
 	{
@@ -77,6 +79,8 @@ class Simulator
 	void updateWithAction(const char []);
 
 	void display();
+
+	void displayMeaningOf(const int&);
 	
 };
 
