@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
 	r = atof(argv[5]);
 	tu = atof(argv[6]);
 	Max_Depth = pow(10,3);
-	Max_Time = 300;
+	Max_Time = 30;
 	L1posnMask = 7 << 3; // 111
 	L2posnMask = 7; // 111
 	L1_buttonMask = (N == 4) ? (15 << 16) : (31 << 19) ;
@@ -65,13 +65,13 @@ int main(int argc, char const *argv[])
 	// cout << a.to_string() << endl;
 	// State s (((1 << 17) + 64));
 
-	State start(0);
+	// State start(0);
 	Sampling sam;
 	int i = 0;
 	int state = 2 + (1 << 19);
 	preProcess(state);
-	char c;
-	cin >> c;
+	// char c;
+	// cin >> c;
 	while ((time(0) - Start_time) < Max_Time)
 	{
 		// int depth = 2000;
@@ -88,11 +88,17 @@ int main(int argc, char const *argv[])
 		cout << "Time taken : " << time(0) - Start_time << endl;
 		i += 1;
 	}
+// print vals, check??
+	for (auto it = Qsa.begin(); it != Qsa.end(); it++)
+		for (auto it1 = (it->second).begin(); it1 != (it->second).end(); it++)
+			cout << "State = " << (it->first) << ", Action = " << (it1->second) << ", val = " << (it1->second) << endl;
+
 	cout << "0" << endl;
 	Simulator s(K,N,p,q,r,tu,false);
 	while (true)
 	{
 		int state = s.getState();
+		cout << state << endl;
 		preProcess(state);
 		char best_Action[2];
 		best_Action[0] = 0;

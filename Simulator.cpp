@@ -34,7 +34,7 @@ Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, f
 	}
 }
 
-inline int Simulator::getShift(int &revShift)
+inline int Simulator::getShift(char revShift)
 {
 	return (no_floors-1-revShift);
 }
@@ -52,7 +52,7 @@ int Simulator::getState()
 		state_integer |= ( ( ((int)(buttons_on_floor[i].first) << 1) + (int)(buttons_on_floor[i].second) ) << (7+2*j) ); 
 	
 	j = no_floors - 2;
-	state_integer |= ((int)(buttons_on_floor[0].first) << (7+2*j) ;
+	state_integer |= ((int)(buttons_on_floor[0].first) << (7+2*j)) ;
 
 	state_integer |= (buttons_on_lift[1] << (8+2*j));
 	state_integer |= (buttons_on_lift[0] << (8+no_floors+2*j));
