@@ -39,7 +39,7 @@ void Sampling::chooseAction(char& action, int& state)
 	float pie_max = -FLT_MAX;
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
-			ns += Exploration[state][(i << 3) + j];
+			ns += Exploration[state][(i << 3) | j];
 	// cout << "ns is " <<  ns << endl;
 
 	for (char i = 0; i < 4; i++)
@@ -72,8 +72,8 @@ void Sampling::updateVals(float& cost, int& depth)
 {
 	int itern_no = 0;
 	auto it1 = Ns.begin();
-	if (depth == Max_Depth)
-		cout << "Curr Avg = " << cost/Max_Depth << endl;
+	// if (depth == Max_Depth)
+	// 	cout << "Curr Avg = " << cost/Max_Depth << endl;
 	for (auto it = State_Action.begin(); it != State_Action.end() && it1 != Ns.end(); it++, it1++)
 	{
 		// Exploration[it->first][it->second] += 1;

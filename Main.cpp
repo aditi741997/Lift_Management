@@ -26,9 +26,9 @@ void runSimulation(int &depth, Sampling &sampler)
 	{
 		char act;
 		int curr_state = s.getState();
+		preProcess(curr_state);
 		sampler.chooseAction(act,curr_state);
 		// cout << "Preprocessing state " << curr_state << endl;
-		preProcess(curr_state);
 		x[0] = (act & L1posnMask) >> 3;
 		x[1] = (act & L2posnMask);
 		// cout << "Action picked = " << (int)x[0] << (int)x[1] << endl;
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
 	r = atof(argv[5]);
 	tu = atof(argv[6]);
 	Max_Depth = pow(10,3);
-	Max_Time = 100;
+	Max_Time = 300;
 	L1posnMask = 7 << 3; // 111
 	L2posnMask = 7; // 111
 	L1_buttonMask = (N == 4) ? (15 << 16) : (31 << 19) ;
@@ -77,11 +77,11 @@ int main(int argc, char const *argv[])
 		// int depth = 2000;
 		// runSimulation(depth,s);
 
-		int depth = 500;
+		int depth = 5;
 		while (((time(0) - Start_time) < Max_Time) && depth <= Max_Depth)
 		{
 			runSimulation(depth,sam);
-			depth += 5;
+			depth += 1;
 			// cout << "Depth = " << depth << " States = " << Qsa.size() << endl;
 		}
 		cout << "Iteration " << i << ", States covered : " << Qsa.size() << endl;
@@ -95,7 +95,9 @@ int main(int argc, char const *argv[])
 		int state = s.getState();
 		preProcess(state);
 		char best_Action[2];
-		float best_Val = -FLT_MAX;
+		best_Action[0] = 0;
+		best_Action[1] = 0;
+		float best_Val = FLT_MAX;
 		if (Qsa.find(state) != Qsa.end())
 		{
 			for (char i = 0; i < 4; i++)
@@ -103,14 +105,17 @@ int main(int argc, char const *argv[])
 				{
 					char act = (i << 3) | j;
 					if (Qsa[state].find(act) != Qsa[state].end())
+					{
+						cout << "Val = " << Qsa[state][act] << endl;					
 						if (Qsa[state][act] < best_Val)
 						{
 							best_Val = Qsa[state][act];
 							best_Action[0] = i;
 							best_Action[1] = j;
 						}
-				}		
-			cout << Qsa[state][(best_Action[0] << 3) | (best_Action[1])] << " is the Q value, action = " << (int)(best_Action[0]) << (int)(best_Action[1]) << endl;
+					}
+				}
+			cout << Qsa[state][(best_Action[0] << 3) | (best_Action[1])] << " is the Q value, action = " << (int)(best_Action[0]) << " " << (int)(best_Action[1]) << endl;
 		}
 		else
 		{
