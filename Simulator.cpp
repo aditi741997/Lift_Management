@@ -128,7 +128,10 @@ void Simulator::updateWithAction(const char action[])
 				break;
 		}
 	}
+}
 
+void Simulator::doObservation()
+{
 	if (!is_real_life)
 	{
 		double P_obs = (double)rand()/RAND_MAX;
@@ -186,7 +189,6 @@ void Simulator::updateWithAction(const char action[])
 			total_people_system ++;
 		}		
 	}
-
 }
 
 void Simulator::display()

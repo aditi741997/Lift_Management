@@ -25,6 +25,7 @@ void runSimulation(int &depth, Sampling &sampler)
 	for(int i = 0; i < depth; i++)
 	{
 		char act;
+		s.doObservation();
 		int curr_state = s.getState();
 		preProcess(curr_state);
 		sampler.chooseAction(act,curr_state);
@@ -48,7 +49,7 @@ int main(int argc, char const *argv[])
 	r = atof(argv[5]);
 	tu = atof(argv[6]);
 	Max_Depth = pow(10,3);
-	Max_Time = 30;
+	Max_Time = 600;
 	L1posnMask = 7 << 3; // 111
 	L2posnMask = 7; // 111
 	L1_buttonMask = (N == 4) ? (15 << 16) : (31 << 19) ;
@@ -104,6 +105,7 @@ int main(int argc, char const *argv[])
 	Simulator s(K,N,p,q,r,tu,false);
 	while (true)
 	{
+		s.doObservation();
 		int state = s.getState();
 		cout << state << endl;
 		preProcess(state);
