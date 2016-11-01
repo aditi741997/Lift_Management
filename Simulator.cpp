@@ -1,6 +1,6 @@
 #include "Simulator.h"
 
-Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, float t_t_u)
+Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, float t_t_u, bool x)
 {
 	srand(time(NULL));
 
@@ -10,6 +10,7 @@ Simulator::Simulator(char lifts, char floors, float p_p, float p_q, float p_r, f
 	q = p_q;
 	r = p_r;
 	t_u = t_t_u;
+	is_real_life = x;
 
 	for(char i=0; i<lifts; i++)
 		lift_pos.push_back(0);
@@ -124,60 +125,64 @@ void Simulator::updateWithAction(const char action[])
 		}
 	}
 
-	double P_obs = (double)rand()/RAND_MAX;
-
-	if(P_obs < p)
+	if (!is_real_life)
 	{
-		Person newPerson;
+		double P_obs = (double)rand()/RAND_MAX;
 
-		double Q_obs = (double)rand()/RAND_MAX;
+		if(P_obs < p)
+		{
+			Person newPerson;
 
-		if(Q_obs < q)
-			newPerson.start_floor = 0;
-		else
-		{
-			newPerson.start_floor = 1.0+((Q_obs-q)/(1-q))*(no_floors-1);
-			if(Q_obs == 1)
-				newPerson.start_floor = no_floors-1;
-		}
+			double Q_obs = (double)rand()/RAND_MAX;
 
-		if(newPerson.start_floor == 0)
-		{
-			double R_obs = (double)rand()/RAND_MAX;
-			newPerson.destination = 1+(int)(R_obs*(no_floors-1));
-			if(R_obs == 1)
-				newPerson.destination --;
-		}
-		else
-		{
-			double R_obs = (double)rand()/RAND_MAX;
-			if(R_obs < r)
-				newPerson.destination = 0;
+			if(Q_obs < q)
+				newPerson.start_floor = 0;
 			else
 			{
-				R_obs = (double)rand()/RAND_MAX;
-				newPerson.destination = (int)(R_obs*(no_floors-1));
+				newPerson.start_floor = 1.0+((Q_obs-q)/(1-q))*(no_floors-1);
+				if(Q_obs == 1)
+					newPerson.start_floor = no_floors-1;
+			}
+
+			if(newPerson.start_floor == 0)
+			{
+				double R_obs = (double)rand()/RAND_MAX;
+				newPerson.destination = 1+(int)(R_obs*(no_floors-1));
 				if(R_obs == 1)
 					newPerson.destination --;
-				if(newPerson.destination >= newPerson.start_floor)
-					newPerson.destination ++;
 			}
-		}
+			else
+			{
+				double R_obs = (double)rand()/RAND_MAX;
+				if(R_obs < r)
+					newPerson.destination = 0;
+				else
+				{
+					R_obs = (double)rand()/RAND_MAX;
+					newPerson.destination = (int)(R_obs*(no_floors-1));
+					if(R_obs == 1)
+						newPerson.destination --;
+					if(newPerson.destination >= newPerson.start_floor)
+						newPerson.destination ++;
+				}
+			}
 
-		// if(newPerson.destination > newPerson.start_floor)
-		// 	newPerson.direction = true;
-		// else
-		// 	newPerson.direction = false;
-		newPerson.direction = (newPerson.destination > newPerson.start_floor);
+			// if(newPerson.destination > newPerson.start_floor)
+			// 	newPerson.direction = true;
+			// else
+			// 	newPerson.direction = false;
+			newPerson.direction = (newPerson.destination > newPerson.start_floor);
 
-		if(newPerson.direction == true)
-			buttons_on_floor[newPerson.start_floor].first = true;
-		else 
-			buttons_on_floor[newPerson.start_floor].second = true;
+			if(newPerson.direction == true)
+				buttons_on_floor[newPerson.start_floor].first = true;
+			else 
+				buttons_on_floor[newPerson.start_floor].second = true;
 
-		people_in_floor[newPerson.start_floor].insert(newPerson);
-		total_people_system ++;
+			people_in_floor[newPerson.start_floor].insert(newPerson);
+			total_people_system ++;
+		}		
 	}
+
 }
 
 void Simulator::display()
