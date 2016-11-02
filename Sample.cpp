@@ -9,7 +9,7 @@ inline void Sampling::findUVal(char& act, int& state, float& val, long& ns, floa
 {
 	// val = rand();
 	if (Exploration[state][act] != 0)
-		val = (Qsa[state][act] < FLT_MAX) ? (-1*Qsa[state][act] - 7*c*sqrt(log(ns)/Exploration[state][act])) : -1*FLT_MAX;
+		val = (Qsa[state][act] < FLT_MAX) ? (-1*Qsa[state][act] - 200*c*sqrt(log(ns)/Exploration[state][act])) : -1*FLT_MAX;
 	else if (Qsa[state][act] < FLT_MAX)
 		val = FLT_MAX;
 	else
