@@ -8,48 +8,6 @@ Agent::Agent(int &N,int &K,float &p,float &q,float &r,float &tu)
 	Lift_Mode = vector<int> (K,0);
 }
 
-inline int Agent::closest_Up(int cfloor)
-{
-	int ans = cfloor;
-	while (ans < N)
-	{
-		if (Button_Floor[ans].first || Button_Floor[ans].second)
-			return ans;
-		else
-			ans++;
-	}
-	return N;
-}
-
-inline int Agent::closest_Down(int cfloor)
-{
-	int ans = cfloor;
-	while (ans >= 0)
-	{
-		if (Button_Floor[ans].first || Button_Floor[ans].second)
-			return ans;
-		else
-			ans--;
-	}
-	return -1;
-}
-
-inline bool Agent::button_up(int lift_no)
-{
-	bool ans = false;
-	for (int i = Lift_Positions[lift_no]; i < N && !ans; i++)
-		ans = ans || Button_Lifts[lift_no][i];
-	return ans;
-}
-
-inline bool Agent::button_down(int lift_no)
-{
-	bool ans = false;
-	for (int i = Lift_Positions[lift_no] - 1; i >= 0 && !ans; i--)
-		ans = ans || Button_Lifts[lift_no][i];
-	return ans;
-
-}
 
 void Agent::updateMode()
 {
@@ -108,11 +66,11 @@ vector<int> Agent::getActions()
 					ans[i] = 2;
 				break;
 			case 0:
-				int closest_up = closest_up(currr_floor);
-				int closest_down = closest_down(currr_floor);
-				if (closest_up < N)
+				int close_up = closest_Up(currr_floor);
+				int close_down = closest_Down(currr_floor);
+				if (close_up < N)
 					ans[i] = 1;
-				else if (closest_down > -1)
+				else if (close_down > -1)
 					ans[i] = 2;
 				else
 					ans[i] = 4;
