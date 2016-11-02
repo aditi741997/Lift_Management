@@ -38,7 +38,7 @@ void Sampling::clear()
 	Next_State.clear();
 }
 
-void Sampling::chooseAction(char& action, int& state, float cost)
+long Sampling::chooseAction(char& action, int& state, float cost)
 {
 	long ns = 1;
 	float pie_max = -FLT_MAX;
@@ -71,7 +71,8 @@ void Sampling::chooseAction(char& action, int& state, float cost)
 	Exploration[state][action] += 1;
 	// Total_Expl += 1;
 	State_Action.push_back(make_pair(state,action));
-	Ns_CostSoFar.push_back(make_pair(ns,cost));
+	// Ns_CostSoFar.push_back(make_pair(ns,cost));
+	return ns;
 }
 
 void Sampling::updateVals(float& cost, int& depth)
@@ -115,7 +116,11 @@ void Sampling::updateVals(float& cost, int& depth)
 					}
 				}
 			if (min_so_far < FLT_MAX)
+			{
+				cout << "Old val = " << Qsa[it->first][it->second] << ", ";
 				Qsa[it->first][it->second] += alpha*(it1->second + getGamma()*(min_so_far) - Qsa[it->first][it->second]);
+				cout << "New val = " << Qsa[it->first][it->second] << "\n";
+			}
 		}
 		itern_no += 1;
 
