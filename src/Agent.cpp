@@ -149,25 +149,25 @@ void Agent::updateStateWithObs(string &inputStream)
         	istringstream pieces(oneObs);
 
         	string firstpiece;
-        	pieces << firstpiece;
+        	pieces >> firstpiece;
 
-        	if(pieces == "BU" || pieces == "BD")
+        	if(firstpiece == "BU" || firstpiece == "BD")
         	{
-        		string manzil;
-        		pieces << manzil;
+        		int manzil;
+        		pieces >> manzil;
 
-        		if(pieces[1] == 'U')
-        			Button_Floor[atoi(manzil)].first = true;
-        		if(pieces[1] == 'D')
-        			Button_Floor[atoi(manzil)].second = true;
+        		if(firstpiece[1] == 'U')
+        			Button_Floor[manzil].first = true;
+        		if(firstpiece[1] == 'D')
+        			Button_Floor[manzil].second = true;
         	}	
-        	else (pieces[0] == 'B')
+        	else if (firstpiece[0] == 'B')
         	{
-				string manzil, lift;
-        		pieces << manzil;
-        		pieces << lift;
+				int manzil, lift;
+        		pieces >> manzil;
+        		pieces >> lift;
 
-        		Button_Lifts[stoi(lift)][stoi(manzil)] = true;		
+        		Button_Lifts[lift][manzil] = true;		
         	}
         	else
         	{

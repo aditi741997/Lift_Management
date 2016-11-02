@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
 	ActionMap[2] = "AD";
 	ActionMap[3] = "AOU";
 	cout << "0" << endl;
+	cin.ignore();
 	while (true)
 	{
 		// take input
@@ -28,10 +29,13 @@ int main(int argc, char const *argv[])
 		// update all buttons
 		string s;
 		getline(cin,s);
+		cout << "OBS Got! \n";
 		a.updateStateWithObs(s);
 		vector<int> action = a.getActions();
+		for (int i = 0; i < K; i++)
+			cout << action[i] << " ith action \n";
 		cout << getString(action);
-		a.updateState(action);
+		a.updateState(action);			
 	}
 	return 0;
 }
