@@ -135,15 +135,14 @@ void Agent::updateStateWithObs(string &inputStream)
 	// parse the observations, change buttons
 
     istringstream iss(inputStream);
-
-    do
+    while (iss)
     {
         string oneObs;
         iss >> oneObs;
 
         cout << oneObs << " 1st obsn \n";
         
-        if(oneObs == "0")
+        if(oneObs == "0" || oneObs == "" || oneObs == "\n")
         {
         	//donothing
         	break;
@@ -185,5 +184,5 @@ void Agent::updateStateWithObs(string &inputStream)
 
         }
         //cout << "Substring: " << sub << endl;
-    } while (iss);
+    }
 }

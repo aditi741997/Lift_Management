@@ -8,8 +8,8 @@ string getString(vector<int> &v)
 {
 	string ans = "";
 	for (int i = 1; i <= v.size(); i++)
-		ans += ActionMap[i-1] + to_string(i) + " ";
-	return ans;
+		ans += ActionMap[i-1] + int_to_string(i) + " ";
+	return ans + "\n";
 }
 
 int main(int argc, char const *argv[])
@@ -27,16 +27,16 @@ int main(int argc, char const *argv[])
 	ActionMap[1] = "AU";
 	ActionMap[2] = "AD";
 	ActionMap[3] = "AOU";
-	cout << "0" << endl;
-	cin.ignore();
+	// cout << "0" << endl;
 	while (true)
 	{
 		// take input
 		// move lifts
 		// update all buttons
 		string s;
+		// cin.ignore(1000,'\n');
 		getline(cin,s);
-		cout << "OBS Got! \n";
+		cout << s << " OBS Got! \n";
 		a.updateStateWithObs(s);
 		vector<int> action = a.getActions();
 		for (int i = 0; i < K; i++)

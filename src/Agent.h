@@ -29,10 +29,10 @@ struct Agent
 
 };
 
-inline string to_string(int x)
+inline string int_to_string(int x)
 {
 	stringstream s;
-	s >> x;
+	s << x;
 	return s.str();
 }
 
