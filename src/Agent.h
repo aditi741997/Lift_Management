@@ -5,8 +5,10 @@
 #include <vector>
 #include <sstream>
 #include <cstdlib>
+#include <algorithm>
+#include <limits.h>
 
-extern int N,K;
+extern int N,K,No_Eps;
 extern float p,q,r,tu;
 
 using namespace std;
@@ -19,7 +21,8 @@ struct Agent
 	vector<vector<bool> > Button_Lifts;
 	vector<int> Lift_Positions;
 	vector<int> Lift_Mode;
-	vector<float> Exp_people;
+	vector<int> Time_open_Up;
+	vector<int> Time_open_Down;
 	// true = up
 	// false = down
 
@@ -28,12 +31,15 @@ struct Agent
 	inline int closest_Down(int);
 	inline bool button_up(int);
 	inline bool button_down(int);
+	inline float getVal(int,int);
 
 	void assignFloor();
 	void updateMode();
 	vector<int> getActions();
 	void updateState(vector<int>&);
 	void updateStateWithObs(string&);
+	void idle_Action1(int,int,vector<int>&);
+	void idle_Action2(int,int,vector<int>&);
 
 };
 

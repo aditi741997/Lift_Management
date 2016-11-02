@@ -1,6 +1,6 @@
 #include "Agent.h"
 
-int N,K;
+int N,K,No_Eps;
 float p,q,r,tu;
 vector<string> ActionMap;
 
@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
 	q = atof(argv[4]);
 	r = atof(argv[5]);
 	tu = atof(argv[6]);
+	No_Eps = 0;
 
 	Agent a (N,K,p,q,r,tu);
 	ActionMap = vector<string> (5);
@@ -37,6 +38,7 @@ int main(int argc, char const *argv[])
 		string s;
 		// cin.ignore(1000,'\n');
 		getline(cin,s);
+		No_Eps += 1;
 		//cout << s << " OBS Got! \n";
 		a.updateStateWithObs(s);
 		a.updateMode();
