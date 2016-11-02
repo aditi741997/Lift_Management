@@ -74,12 +74,22 @@ vector<int> Agent::getActions()
 					ans[i] = 0;
 				else if (Button_Floor[currr_floor].first)
 					ans[i] = 3;
-				else if (close_up < N)
-					ans[i] = 1;
-				else if (close_down > -1)
-					ans[i] = 2;
+				else if (close_up == N)
+				{
+					if (close_down > -1)
+						ans[i] = 2;
+					else
+						ans[i] = 4;
+				}
 				else
-					ans[i] = 4;
+				{
+					if (close_down == -1)
+						ans[i] = 1;
+					else if (currr_floor - close_down < close_up - currr_floor)
+						ans[i] = 2;
+					else
+						ans[i] = 1;
+				}
 				break;
 		}
 

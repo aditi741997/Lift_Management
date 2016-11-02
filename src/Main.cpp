@@ -42,8 +42,8 @@ int main(int argc, char const *argv[])
 		a.updateMode();
 		vector<int> action = a.getActions();
 		cout << getString(action);
-		a.updateMode();		
 		a.updateState(action);
+		a.updateMode();
 	}
 	return 0;
 }

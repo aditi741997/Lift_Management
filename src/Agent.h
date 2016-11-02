@@ -37,7 +37,7 @@ struct Agent
 
 inline int Agent::closest_Up(int cfloor)
 {
-	int ans = cfloor;
+	int ans = cfloor+1;
 	while (ans < N)
 	{
 		if (Button_Floor[ans].first || Button_Floor[ans].second)
@@ -50,7 +50,7 @@ inline int Agent::closest_Up(int cfloor)
 
 inline int Agent::closest_Down(int cfloor)
 {
-	int ans = cfloor;
+	int ans = cfloor-1;
 	while (ans >= 0)
 	{
 		if (Button_Floor[ans].first || Button_Floor[ans].second)
@@ -64,7 +64,7 @@ inline int Agent::closest_Down(int cfloor)
 inline bool Agent::button_up(int lift_no)
 {
 	bool ans = false;
-	for (int i = Lift_Positions[lift_no]; i < N && !ans; i++)
+	for (int i = Lift_Positions[lift_no] + 1; i < N && !ans; i++)
 		ans = ans || Button_Lifts[lift_no][i];
 	return ans;
 }
