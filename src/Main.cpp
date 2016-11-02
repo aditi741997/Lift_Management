@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
 	ActionMap[2] = "AD";
 	ActionMap[3] = "AOU";
 	ActionMap[4] = "AS";
-	// cout << "0" << endl;
+	cout << "0" << endl;
 	while (true)
 	{
 		// take input
@@ -37,13 +37,13 @@ int main(int argc, char const *argv[])
 		string s;
 		// cin.ignore(1000,'\n');
 		getline(cin,s);
-		cout << s << " OBS Got! \n";
+		//cout << s << " OBS Got! \n";
 		a.updateStateWithObs(s);
 		a.updateMode();
 		vector<int> action = a.getActions();
 		cout << getString(action);
 		a.updateState(action);
-		a.updateMode();
+		a.updateMode();		
 	}
 	return 0;
 }
