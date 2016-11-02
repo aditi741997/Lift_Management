@@ -39,8 +39,8 @@ int main(int argc, char const *argv[])
 		cout << s << " OBS Got! \n";
 		a.updateStateWithObs(s);
 		vector<int> action = a.getActions();
-		for (int i = 0; i < K; i++)
-			cout << action[i] << " ith action \n";
+		//for (int i = 0; i < K; i++)
+			//cout << action[i] << " ith action \n";
 		cout << getString(action);
 		a.updateState(action);			
 	}
