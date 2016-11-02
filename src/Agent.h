@@ -28,6 +28,14 @@ struct Agent
 
 };
 
+inline string to_string(int x)
+{
+	stringstream s;
+	s >> x;
+	return s.str();
+}
+
+
 string getString(vector<int>&);
 
 #endif

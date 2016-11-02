@@ -16,56 +16,83 @@ vector<int> Agent::getActions()
 	for (int i = 0; i < K; i++)
 	{
 		int currr_floor = Lift_Positions[i];
+		bool go_down = true; // > curr pe no floor/lift button pressed.
+		for (int j = N-1; j > currr_floor; j--)
+			go_down = go_down && (!Button_Floor[j].first) && (!Button_Floor[j].second) && (!Button_Lifts[i][j]);
+		bool go_up = true;   // < curr pe no floor/lift button pressed.
+		for (int j = 0; j < currr_floor; j++)
+			go_up = go_up && (!Button_Floor[j].first) && (!(Button_Floor[j].second)) && (!Button_Lifts[i][j]);
+
 		if (currr_floor == 0)
 			Lift_Mode[i] = true;
 		else if (currr_floor == N-1)
 			Lift_Mode[i] = false;
-		else
-		{
-			bool go_down = true;
-			for (int j = N-1; j > currr_floor; j--)
-				go_down = go_down && (!Button_Floor[j].first) && (!Button_Floor[j].second) && (!Button_Lifts[i][j]);
-			bool go_up = true;
-			for (int j = 0; j < currr_floor; j++)
-				go_up = go_up && (!Button_Floor[j].first) && (!(Button_Floor[j].second)) && (!Button_Lifts[i][j]);
-			if (go_down && go_up)
-			{
 
-			}
-			else if (go_down)
-			{
-				Lift_Mode[i] = false;
-			}
-			else if (go_up)
-			{
-				Lift_Mode[i] = true;
-			}
-			else
-			{
-
-			}
-		}
-	}
-	for (int i = 0; i < K; i++)
-	{
-		int currr_floor = Lift_Positions[i];
 		if (Lift_Mode[i])
 		{
-			// choose b/w 1,3
-			if (Button_Lifts[i][currr_floor] || Button_Floor[currr_floor].first)
+			// up mode.
+			if (Button_Floor[currr_floor].first || Button_Lifts[i][currr_floor])
 				ans[i] = 3;
+			else if (go_down)
+			{
+				if (currr_floor > 0)
+				{
+					Lift_Mode[i] = false;
+					if (Button_Floor[currr_floor].second)
+						ans[i] = 0;
+					else
+						ans[i] = 2;		// CONFIRM!			
+				}
+				else
+					ans[i] = 3;
+			}
 			else
 				ans[i] = 1;
 		}
 		else
 		{
-			// choose b/w 0,2
-			if (Button_Lifts[i][currr_floor] || Button_Floor[currr_floor].second)
-				ans[i] = 2;
-			else
+			// down mode.
+			if (Button_Floor[currr_floor].second || Button_Lifts[i][currr_floor])
 				ans[i] = 0;
+			else if (go_up)
+			{
+				if (currr_floor < N-1)
+				{
+					Lift_Mode[i] = true;
+					if (Button_Floor[currr_floor].first)
+						ans[i] = 3;
+					else if (go_down)		// CONFIRM!
+						ans[i] = 0;
+					else
+						ans[i] = 2;
+				}
+				else
+					ans[i] = 0;
+			}
+			else
+				ans[i] = 2;
 		}
 	}
+	// for (int i = 0; i < K; i++)
+	// {
+	// 	int currr_floor = Lift_Positions[i];
+	// 	if (Lift_Mode[i])
+	// 	{
+	// 		// choose b/w 1,3
+	// 		if (Button_Lifts[i][currr_floor] || Button_Floor[currr_floor].first)
+	// 			ans[i] = 3;
+	// 		else
+	// 			ans[i] = 1;
+	// 	}
+	// 	else
+	// 	{
+	// 		// choose b/w 0,2
+	// 		if (Button_Lifts[i][currr_floor] || Button_Floor[currr_floor].second)
+	// 			ans[i] = 2;
+	// 		else
+	// 			ans[i] = 0;
+	// 	}
+	// }
 	return ans;
 }
 
