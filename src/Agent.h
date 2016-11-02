@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 extern int N,K;
 extern float p,q,r,tu;
@@ -26,6 +27,14 @@ struct Agent
 	void updateStateWithObs(string&);
 
 };
+
+inline string to_string(int x)
+{
+	stringstream s;
+	s >> x;
+	return s.str();
+}
+
 
 string getString(vector<int>&);
 
