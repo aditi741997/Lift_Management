@@ -5,7 +5,7 @@ Agent::Agent(int &N,int &K,float &p,float &q,float &r,float &tu)
 	Button_Floor = vector<pair<bool,bool> > (N, make_pair(false,false));
 	Button_Lifts = vector<vector<bool> > (K, vector<bool> (N,false));
 	Lift_Positions = vector<int> (K,0);
-	Lift_Mode = vector<bool> (K,true);
+	Lift_Mode = vector<int> (K,0);
 }
 
 vector<int> Agent::getActions()
@@ -23,55 +23,61 @@ vector<int> Agent::getActions()
 		for (int j = 0; j < currr_floor; j++)
 			go_up = go_up && (!Button_Floor[j].first) && (!(Button_Floor[j].second)) && (!Button_Lifts[i][j]);
 
-		if (currr_floor == 0)
-			Lift_Mode[i] = true;
-		else if (currr_floor == N-1)
-			Lift_Mode[i] = false;
+		// if (currr_floor == 0)
+		// 	Lift_Mode[i] = true;
+		// else if (currr_floor == N-1)
+		// 	Lift_Mode[i] = false;
 
-		if (Lift_Mode[i])
-		{
-			// up mode.
-			if (Button_Floor[currr_floor].first || Button_Lifts[i][currr_floor])
-				ans[i] = 3;
-			else if (go_down)
-			{
-				if (currr_floor > 0)
-				{
-					Lift_Mode[i] = false;
-					if (Button_Floor[currr_floor].second)
-						ans[i] = 0;
-					else
-						ans[i] = 2;		// CONFIRM!			
-				}
-				else
-					ans[i] = 3;
-			}
-			else
-				ans[i] = 1;
-		}
-		else
-		{
-			// down mode.
-			if (Button_Floor[currr_floor].second || Button_Lifts[i][currr_floor])
-				ans[i] = 0;
-			else if (go_up)
-			{
-				if (currr_floor < N-1)
-				{
-					Lift_Mode[i] = true;
-					if (Button_Floor[currr_floor].first)
-						ans[i] = 3;
-					else if (go_down)		// CONFIRM!
-						ans[i] = 0;
-					else
-						ans[i] = 2;
-				}
-				else
-					ans[i] = 0;
-			}
-			else
-				ans[i] = 2;
-		}
+		// if (Lift_Mode[i] == 1)
+		// {
+		// 	// up mode.
+		// 	if (Button_Floor[currr_floor].first || Button_Lifts[i][currr_floor])
+		// 		ans[i] = 3;
+		// 	else if (go_down)
+		// 	{
+		// 		if (currr_floor > 0)
+		// 		{
+		// 			Lift_Mode[i] = false;
+		// 			if (Button_Floor[currr_floor].second)
+		// 				ans[i] = 0;
+		// 			else
+		// 				ans[i] = 2;		// CONFIRM!			
+		// 		}
+		// 		else
+		// 			ans[i] = 3;
+		// 	}
+		// 	else
+		// 		ans[i] = 1;
+		// }
+		// else if (Lift_Mode[i] == 2)
+		// {
+		// 	// down mode.
+		// 	if (Button_Floor[currr_floor].second || Button_Lifts[i][currr_floor])
+		// 		ans[i] = 0;
+		// 	else if (go_up)
+		// 	{
+		// 		if (currr_floor < N-1)
+		// 		{
+		// 			Lift_Mode[i] = true;
+		// 			if (Button_Floor[currr_floor].first)
+		// 				ans[i] = 3;
+		// 			else if (go_down)		// CONFIRM!
+		// 				ans[i] = 0;
+		// 			else
+		// 				ans[i] = 2;
+		// 		}
+		// 		else
+		// 			ans[i] = 0;
+		// 	}
+		// 	else
+		// 		ans[i] = 2;
+		// }
+		// else
+		// {
+		// 	// vella mode
+		// }
+
+		// 3 MODES:
 	}
 	// for (int i = 0; i < K; i++)
 	// {
@@ -134,6 +140,8 @@ void Agent::updateStateWithObs(string &inputStream)
     {
         string oneObs;
         iss >> oneObs;
+
+        cout << oneObs << " 1st obsn \n";
         
         if(oneObs == "0")
         {
@@ -150,12 +158,13 @@ void Agent::updateStateWithObs(string &inputStream)
 
         	string firstpiece;
         	pieces >> firstpiece;
+        	cout << "1st piece = " << firstpiece << endl;
 
         	if(firstpiece == "BU" || firstpiece == "BD")
         	{
         		int manzil;
         		pieces >> manzil;
-
+        		cout << "manzil = " << manzil << endl;
         		if(firstpiece[1] == 'U')
         			Button_Floor[manzil].first = true;
         		if(firstpiece[1] == 'D')

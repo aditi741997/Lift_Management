@@ -14,8 +14,15 @@ string getString(vector<int> &v)
 
 int main(int argc, char const *argv[])
 {
-	cin >> N >> K >> p >> q >> r >> tu;
+	N = atoi(argv[1]);
+	K = atoi(argv[2]);
+	p = atof(argv[3]);
+	q = atof(argv[4]);
+	r = atof(argv[5]);
+	tu = atof(argv[6]);
+
 	Agent a (N,K,p,q,r,tu);
+	ActionMap = vector<string> (4);
 	ActionMap[0] = "AOD";
 	ActionMap[1] = "AU";
 	ActionMap[2] = "AD";

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <cstdlib>
 
 extern int N,K;
 extern float p,q,r,tu;
@@ -17,7 +18,7 @@ struct Agent
 	vector<pair<bool,bool> > Button_Floor;
 	vector<vector<bool> > Button_Lifts;
 	vector<int> Lift_Positions;
-	vector<bool> Lift_Mode;
+	vector<int> Lift_Mode;
 	// true = up
 	// false = down
 
