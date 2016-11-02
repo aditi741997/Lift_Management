@@ -19,6 +19,7 @@ struct Agent
 	vector<vector<bool> > Button_Lifts;
 	vector<int> Lift_Positions;
 	vector<int> Lift_Mode;
+	vector<float> Exp_people;
 	// true = up
 	// false = down
 
@@ -28,6 +29,7 @@ struct Agent
 	inline bool button_up(int);
 	inline bool button_down(int);
 
+	void assignFloor();
 	void updateMode();
 	vector<int> getActions();
 	void updateState(vector<int>&);

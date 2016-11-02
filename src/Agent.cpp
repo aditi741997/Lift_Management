@@ -6,8 +6,26 @@ Agent::Agent(int &N,int &K,float &p,float &q,float &r,float &tu)
 	Button_Lifts = vector<vector<bool> > (K, vector<bool> (N,false));
 	Lift_Positions = vector<int> (K,0);
 	Lift_Mode = vector<int> (K,0);
+	Exp_people = vector<float> (N,0);
 }
 
+void Agent::assignFloor(vector<int> &v, unordered_map<int> &assigned_floors)
+{
+	// unordered_map<int> assigned_floors;
+	for (int i = 0; i < K; i ++)
+	{
+		if (Lift_Mode[i] == 0)
+		{
+			char curr_floor = Lift_Positions[i];
+			int dist = 1;
+			bool done = false;
+			while (!done && ((currr_floor + dist < N) || (currr_floor - dist >= 0)))
+			{
+				if ((currr_floor + dist) < N && assigned_floors.)
+			}
+		}
+	}
+}
 
 void Agent::updateMode()
 {
