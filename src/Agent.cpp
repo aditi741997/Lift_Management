@@ -162,7 +162,6 @@ void Agent::updateStateWithObs(string &inputStream)
         string oneObs;
         iss >> oneObs;
 
-        cout << oneObs << " 1st obsn \n";
         
         if(oneObs == "0" || oneObs == "" || oneObs == "\n")
         {
@@ -171,6 +170,8 @@ void Agent::updateStateWithObs(string &inputStream)
         }
         else
         {
+        	cout << oneObs << " 1st obsn \n";
+
         	for(auto it = oneObs.begin(); it != oneObs.end(); it++)
         		if(*it == '_')
         			*it = ' ';
@@ -187,9 +188,9 @@ void Agent::updateStateWithObs(string &inputStream)
         		pieces >> manzil;
         		cout << "manzil = " << manzil << endl;
         		if(firstpiece[1] == 'U')
-        			Button_Floor[manzil].first = true;
+        			Button_Floor[manzil-1].first = true;
         		if(firstpiece[1] == 'D')
-        			Button_Floor[manzil].second = true;
+        			Button_Floor[manzil-1].second = true;
         	}	
         	else if (firstpiece[0] == 'B')
         	{
@@ -197,7 +198,9 @@ void Agent::updateStateWithObs(string &inputStream)
         		pieces >> manzil;
         		pieces >> lift;
 
-        		Button_Lifts[lift][manzil] = true;		
+        		cout << "manzil = " << manzil << "lift = " << lift << endl;
+
+        		Button_Lifts[lift-1][manzil-1] = true;		
         	}
         	else
         	{
