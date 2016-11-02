@@ -7,15 +7,17 @@ class Sampling
 {
 private:
 	list<pair<int,char> > State_Action;
-	list<long> Ns;
+	list<pair<long,float> > Ns_CostSoFar;
 	// float c;
 	inline float getAlpha(int&,int&,long&);
 	inline float newQ(float&,int&);
 	inline void findUVal(char&,int&,float&,long&,float&);
+	inline float getGamma();
 
 public:
+	list<int> Next_State;
 	Sampling();
-	void chooseAction(char&,int&); // take state from Sim, give action, add to list.
+	void chooseAction(char&,int&,float); // take state from Sim, give action, add to list.
 	void updateVals(float&,int&);
 	void clear();
 };

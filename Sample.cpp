@@ -26,13 +26,19 @@ inline float Sampling::newQ(float& cost, int& depth)
 	return cost/depth;
 }
 
+inline float Sampling::getGamma()
+{
+	return 0.9;
+}
+
 void Sampling::clear()
 {
 	State_Action.clear();
-	Ns.clear();
+	Ns_CostSoFar.clear();
+	Next_State.clear();
 }
 
-void Sampling::chooseAction(char& action, int& state)
+void Sampling::chooseAction(char& action, int& state, float cost)
 {
 	long ns = 1;
 	float pie_max = -FLT_MAX;
@@ -65,34 +71,51 @@ void Sampling::chooseAction(char& action, int& state)
 	Exploration[state][action] += 1;
 	// Total_Expl += 1;
 	State_Action.push_back(make_pair(state,action));
-	Ns.push_back(ns);
+	Ns_CostSoFar.push_back(make_pair(ns,cost));
 }
 
 void Sampling::updateVals(float& cost, int& depth)
 {
 	int itern_no = 0;
 
-	auto it1 = Ns.begin();
+	auto it1 = Ns_CostSoFar.begin();
+	auto it2 = Next_State.begin();
 	// if (depth == Max_Depth)
 	// 	cout << "Curr Avg = " << cost/Max_Depth << endl;
-	for (auto it = State_Action.begin(); it != State_Action.end() && it1 != Ns.end(); it++, it1++)
+	for (auto it = State_Action.begin(); it != State_Action.end() && it1 != Ns_CostSoFar.end() && it2 != Next_State.end(); it++, it1++, it2++)
 	{
 		// Exploration[it->first][it->second] += 1;
 		if (Qsa[it->first][it->second] < FLT_MAX)
 		{
-			float alpha = getAlpha(itern_no,depth, (*it1));
-			float delta = (alpha)*(newQ(cost,depth) - Qsa[it->first][it->second]);
+			float alpha = getAlpha(itern_no,depth, (it1->first));
+			// float delta = (alpha)*(newQ(cost,depth) - Qsa[it->first][it->second]);
 
-			Avg_Qsa[it->first] += (delta - Avg_Qsa[it->first])/(*it1 + 1);
+			// Avg_Qsa[it->first] += (delta - Avg_Qsa[it->first])/(it1->firsr + 1);
 			
-			Qsa[it->first][it->second] += delta;
-			// cout << "alpha = " << getAlpha(itern_no,depth,*(it1)) << endl;
-			if (alpha < 0)
-			{
-				cout << itern_no << " depth = " << depth << ", ns = " << (*it1) << endl;
-				char c;
-				cin >> c;
-			}
+			// Qsa[it->first][it->second] += delta;
+			// // cout << "alpha = " << getAlpha(itern_no,depth,(it1->first)) << endl;
+			// if (alpha < 0)
+			// {
+			// 	cout << itern_no << " depth = " << depth << ", ns = " << (it1->first) << endl;
+			// 	char c;
+			// 	cin >> c;
+			// }
+
+			// NEW METHOD ------------------->
+			float min_so_far = FLT_MAX;
+			for (char i = 0; i < 4; i++)
+				for (char j = 0; j < 4; j ++)
+				{
+					char act = (i << 3) | j;
+					int next = *it2;
+					if (Qsa[next].find(act) != Qsa[next].end())
+					{
+						// better?
+						min_so_far = min(min_so_far, Qsa[next][act]);
+					}
+				}
+			if (min_so_far < FLT_MAX)
+				Qsa[it->first][it->second] += alpha*(it1->second + getGamma()*(min_so_far) - Qsa[it->first][it->second]);
 		}
 		itern_no += 1;
 
