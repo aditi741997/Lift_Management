@@ -19,6 +19,7 @@ void Agent::updateMode()
 			Lift_Mode[i] = 2;
 		else
 			Lift_Mode[i] = 0;
+		cout << "New mode of lift " << i << " is : " << Lift_Mode[i] << endl;
 	}
 }
 
@@ -30,12 +31,12 @@ vector<int> Agent::getActions()
 	for (int i = 0; i < K; i++)
 	{
 		int currr_floor = Lift_Positions[i];
-		bool go_down = true; // > curr pe no floor/lift button pressed.
-		for (int j = N-1; j > currr_floor; j--)
-			go_down = go_down && (!Button_Floor[j].first) && (!Button_Floor[j].second) && (!Button_Lifts[i][j]);
-		bool go_up = true;   // < curr pe no floor/lift button pressed.
-		for (int j = 0; j < currr_floor; j++)
-			go_up = go_up && (!Button_Floor[j].first) && (!(Button_Floor[j].second)) && (!Button_Lifts[i][j]);
+		// bool go_down = true; // > curr pe no floor/lift button pressed.
+		// for (int j = N-1; j > currr_floor; j--)
+		// 	go_down = go_down && (!Button_Floor[j].first) && (!Button_Floor[j].second) && (!Button_Lifts[i][j]);
+		// bool go_up = true;   // < curr pe no floor/lift button pressed.
+		// for (int j = 0; j < currr_floor; j++)
+		// 	go_up = go_up && (!Button_Floor[j].first) && (!(Button_Floor[j].second)) && (!Button_Lifts[i][j]);
 
 		switch (Lift_Mode[i])
 		{
@@ -68,7 +69,12 @@ vector<int> Agent::getActions()
 			case 0:
 				int close_up = closest_Up(currr_floor);
 				int close_down = closest_Down(currr_floor);
-				if (close_up < N)
+				// cout << "For lift " << i << ", close up, down = " << close_up << close_down << endl;
+				if (Button_Floor[currr_floor].second)
+					ans[i] = 0;
+				else if (Button_Floor[currr_floor].first)
+					ans[i] = 3;
+				else if (close_up < N)
 					ans[i] = 1;
 				else if (close_down > -1)
 					ans[i] = 2;

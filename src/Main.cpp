@@ -8,7 +8,7 @@ string getString(vector<int> &v)
 {
 	string ans = "";
 	for (int i = 1; i <= v.size(); i++)
-		ans += ActionMap[i-1] + int_to_string(i) + " ";
+		ans += ActionMap[v[i-1]] + int_to_string(i) + " ";
 	return ans + "\n";
 }
 
@@ -42,8 +42,8 @@ int main(int argc, char const *argv[])
 		a.updateMode();
 		vector<int> action = a.getActions();
 		cout << getString(action);
-		a.updateState(action);
 		a.updateMode();		
+		a.updateState(action);
 	}
 	return 0;
 }
