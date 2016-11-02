@@ -22,11 +22,12 @@ int main(int argc, char const *argv[])
 	tu = atof(argv[6]);
 
 	Agent a (N,K,p,q,r,tu);
-	ActionMap = vector<string> (4);
+	ActionMap = vector<string> (5);
 	ActionMap[0] = "AOD";
 	ActionMap[1] = "AU";
 	ActionMap[2] = "AD";
 	ActionMap[3] = "AOU";
+	ActionMap[4] = "AS";
 	// cout << "0" << endl;
 	while (true)
 	{
@@ -38,11 +39,11 @@ int main(int argc, char const *argv[])
 		getline(cin,s);
 		cout << s << " OBS Got! \n";
 		a.updateStateWithObs(s);
+		a.updateMode();
 		vector<int> action = a.getActions();
-		for (int i = 0; i < K; i++)
-			cout << action[i] << " ith action \n";
 		cout << getString(action);
-		a.updateState(action);			
+		a.updateState(action);
+		a.updateMode();		
 	}
 	return 0;
 }
