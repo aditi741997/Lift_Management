@@ -78,6 +78,8 @@ class Simulator
 
 	void updateWithAction(const char []);
 
+	void doObservation();
+
 	void display();
 
 	void displayMeaningOf(const int&);
