@@ -19,7 +19,7 @@ void Agent::updateMode()
 			Lift_Mode[i] = 2;
 		else
 			Lift_Mode[i] = 0;
-		cout << "New mode of lift " << i << " is : " << Lift_Mode[i] << endl;
+		//cout << "New mode of lift " << i << " is : " << Lift_Mode[i] << endl;
 	}
 }
 
@@ -74,10 +74,10 @@ vector<int> Agent::getActions()
 					ans[i] = 0;
 				else if (Button_Floor[currr_floor].first)
 					ans[i] = 3;
-				else if (close_up < N)
-					ans[i] = 1;
 				else if (close_down > -1)
 					ans[i] = 2;
+				else if (close_up < N)
+					ans[i] = 1;
 				else
 					ans[i] = 4;
 				break;
@@ -134,7 +134,7 @@ void Agent::updateStateWithObs(string &inputStream)
         }
         else
         {
-        	cout << oneObs << " 1st obsn \n";
+        	//cout << oneObs << " 1st obsn \n";
 
         	for(auto it = oneObs.begin(); it != oneObs.end(); it++)
         		if(*it == '_')
@@ -144,13 +144,13 @@ void Agent::updateStateWithObs(string &inputStream)
 
         	string firstpiece;
         	pieces >> firstpiece;
-        	cout << "1st piece = " << firstpiece << endl;
+        	//cout << "1st piece = " << firstpiece << endl;
 
         	if(firstpiece == "BU" || firstpiece == "BD")
         	{
         		int manzil;
         		pieces >> manzil;
-        		cout << "manzil = " << manzil << endl;
+        		//cout << "manzil = " << manzil << endl;
         		if(firstpiece[1] == 'U')
         			Button_Floor[manzil-1].first = true;
         		if(firstpiece[1] == 'D')
@@ -162,13 +162,13 @@ void Agent::updateStateWithObs(string &inputStream)
         		pieces >> manzil;
         		pieces >> lift;
 
-        		cout << "manzil = " << manzil << "lift = " << lift << endl;
+        		//cout << "manzil = " << manzil << "lift = " << lift << endl;
 
         		Button_Lifts[lift-1][manzil-1] = true;		
         	}
         	else
         	{
-        		cout << "WTF WHILE PARSING?????????????????"<<endl;
+        		//cout << "WTF WHILE PARSING?????????????????"<<endl;
         	}
 
         }
