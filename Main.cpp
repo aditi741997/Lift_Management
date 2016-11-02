@@ -28,12 +28,13 @@ void runSimulation(int &depth, Sampling &sampler)
 		s.doObservation();
 		int curr_state = s.getState();
 		preProcess(curr_state);
-		sampler.chooseAction(act,curr_state);
+		sampler.chooseAction(act,curr_state,s.getCost());
 		// cout << "Preprocessing state " << curr_state << endl;
 		x[0] = (act & L1posnMask) >> 3;
 		x[1] = (act & L2posnMask);
 		// cout << "Action picked = " << (int)x[0] << (int)x[1] << endl;
 		s.updateWithAction(x);
+		sampler.Next_State.push_back(s.getState()); // store s'
 	}
 	float f = s.getCost();
 	sampler.updateVals(f,depth);
