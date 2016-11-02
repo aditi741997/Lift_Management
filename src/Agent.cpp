@@ -19,7 +19,7 @@ void Agent::updateMode()
 			Lift_Mode[i] = 2;
 		else
 			Lift_Mode[i] = 0;
-		//cout << "New mode of lift " << i << " is : " << Lift_Mode[i] << endl;
+		cerr << "New mode of lift " << i << " is : " << Lift_Mode[i] << endl;
 	}
 }
 
@@ -74,12 +74,29 @@ vector<int> Agent::getActions()
 					ans[i] = 0;
 				else if (Button_Floor[currr_floor].first)
 					ans[i] = 3;
-				else if (close_down > -1)
-					ans[i] = 2;
-				else if (close_up < N)
-					ans[i] = 1;
+				else if (Button_Lifts[i][currr_floor])
+				{
+					if (currr_floor == N-1)
+						ans[i] = 0;
+					else
+						ans[i] = 3;
+				}
+				else if (close_up == N)
+				{
+					if (close_down > -1)
+						ans[i] = 2;
+					else
+						ans[i] = 4;
+				}
 				else
-					ans[i] = 4;
+				{
+					if (close_down == -1)
+						ans[i] = 1;
+					else if ( (currr_floor - close_down) < (close_up - currr_floor) )
+						ans[i] = 2;
+					else
+						ans[i] = 1;
+				}
 				break;
 		}
 
@@ -126,10 +143,12 @@ void Agent::updateStateWithObs(string &inputStream)
         string oneObs;
         iss >> oneObs;
 
-        
-        if(oneObs == "0" || oneObs == "" || oneObs == "\n")
+        if(oneObs == "0")
         {
-        	//donothing
+        	;
+        }
+        else if( oneObs == "" || oneObs == "\n")
+        {
         	break;
         }
         else
