@@ -96,8 +96,58 @@ void Agent::updateState(vector<int> &v)
 	}
 }
 
-void Agent::updateStateWithObs(string&)
+void Agent::updateStateWithObs(string &inputStream)
 {
 	// TODO : AAYAN
 	// parse the observations, change buttons
+
+    istringstream iss(inputStream);
+
+    do
+    {
+        string oneObs;
+        iss >> oneObs;
+        
+        if(oneObs == "0")
+        {
+        	//donothing
+        	break;
+        }
+        else
+        {
+        	for(auto it = oneObs.begin(); it != oneObs.end(); it++)
+        		if(*it == '_')
+        			*it = ' ';
+
+        	istringstream pieces(oneObs);
+
+        	string firstpiece;
+        	pieces << firstpiece;
+
+        	if(pieces == "BU" || pieces == "BD")
+        	{
+        		string manzil;
+        		pieces << manzil;
+
+        		if(pieces[1] == 'U')
+        			Button_Floor[atoi(manzil)].first = true;
+        		if(pieces[1] == 'D')
+        			Button_Floor[atoi(manzil)].second = true;
+        	}	
+        	else (pieces[0] == 'B')
+        	{
+				string manzil, lift;
+        		pieces << manzil;
+        		pieces << lift;
+
+        		Button_Lifts[stoi(lift)][stoi(manzil)] = true;		
+        	}
+        	else
+        	{
+        		cout << "WTF WHILE PARSING?????????????????"<<endl;
+        	}
+
+        }
+        //cout << "Substring: " << sub << endl;
+    } while (iss);
 }

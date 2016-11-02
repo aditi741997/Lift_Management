@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 extern int N,K;
 extern float p,q,r,tu;
